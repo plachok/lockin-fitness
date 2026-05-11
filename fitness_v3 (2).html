@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LOCK IN">
+<meta name="theme-color" content="#080808">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>LOCK IN v3 — Complete System</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sarabun:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080808;--surface:#111;--card:#161616;--border:#222;--border2:#2d2d2d;
+  --accent:#e8ff00;--accent2:#00e5ff;--orange:#ff6b35;--green:#00e676;
+  --red:#ff1744;--purple:#d500f9;--pink:#ff4081;--white:#f0f0f0;--muted:#666;--muted2:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Sarabun',sans-serif;font-size:15px;line-height:1.65;overflow-x:hidden}
+
+/* HERO */
+.hero{position:relative;padding:48px 24px 36px;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(232,255,0,.04),transparent 70%);pointer-events:none}
+.hero-ghost{position:absolute;right:-10px;top:-30px;font-family:'Bebas Neue';font-size:200px;color:rgba(232,255,0,.025);line-height:1;pointer-events:none;user-select:none}
+.hero-inner{max-width:960px;margin:0 auto;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--accent);color:var(--accent);font-family:'JetBrains Mono';font-size:11px;padding:5px 14px;letter-spacing:2px;margin-bottom:18px}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-family:'Bebas Neue';font-size:clamp(56px,10vw,100px);line-height:.88;letter-spacing:2px;margin-bottom:6px}
+.hero h1 em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:14px;color:var(--muted2);margin-bottom:24px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{background:var(--card);border:1px solid var(--border2);padding:10px 18px;display:flex;flex-direction:column;gap:1px;min-width:100px}
+.pill-lbl{font-family:'JetBrains Mono';font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.pill-val{font-family:'Bebas Neue';font-size:26px;line-height:1;color:var(--accent)}
+.pill-sub{font-size:11px;color:var(--muted)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(8,8,8,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0;padding:14px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'JetBrains Mono';font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .2s}
+.nav-btn:hover{color:var(--white)}
+.nav-btn.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* SECTIONS */
+.sec{display:none;padding:28px 20px 60px;max-width:980px;margin:0 auto}
+.sec.on{display:block}
+.sh{margin-bottom:24px}
+.sh-tag{font-family:'JetBrains Mono';font-size:10px;letter-spacing:3px;color:var(--accent);margin-bottom:6px;text-transform:uppercase}
+.sh-title{font-family:'Bebas Neue';font-size:clamp(34px,5vw,52px);line-height:.95;letter-spacing:1px}
+.sh-desc{font-size:13px;color:var(--muted2);margin-top:6px}
+
+/* INFO BOXES */
+.infobox{background:var(--card);border-left:3px solid var(--accent);padding:14px 18px;margin-bottom:16px;font-size:13px;color:#bbb;line-height:1.8}
+.infobox strong{color:var(--accent)}
+.infobox.blue{border-color:var(--accent2)}.infobox.blue strong{color:var(--accent2)}
+.infobox.orange{border-color:var(--orange)}.infobox.orange strong{color:var(--orange)}
+.infobox.green{border-color:var(--green)}.infobox.green strong{color:var(--green)}
+.infobox.red{border-color:var(--red)}
+.infobox h4{font-family:'JetBrains Mono';font-size:10px;letter-spacing:2px;margin-bottom:8px;text-transform:uppercase;color:var(--accent)}
+
+/* DAY CARDS */
+.week{display:flex;flex-direction:column;gap:10px}
+.dc{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .2s}
+.dc:hover{border-color:var(--border2)}
+.dc.open{border-color:rgba(232,255,0,.2)}
+.dc-head{display:grid;grid-template-columns:50px 1fr auto auto;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;user-select:none}
+.dc-num{font-family:'Bebas Neue';font-size:36px;color:var(--accent);line-height:1}
+.dc-name{font-weight:700;font-size:14px}
+.dc-type{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);letter-spacing:.5px;margin-top:1px}
+.badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{font-family:'JetBrains Mono';font-size:9px;padding:3px 8px;border:1px solid;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.b-up{border-color:var(--accent2);color:var(--accent2)}
+.b-lo{border-color:var(--green);color:var(--green)}
+.b-run{border-color:var(--purple);color:var(--purple)}
+.b-rest{border-color:var(--muted);color:var(--muted)}
+.b-foot{border-color:var(--orange);color:var(--orange)}
+.b-active{border-color:#aaa;color:#aaa}
+.b-core{border-color:var(--accent);color:var(--accent)}
+.dc-tog{font-size:14px;color:var(--muted);transition:transform .25s;width:18px;text-align:center}
+.dc.open .dc-tog{transform:rotate(180deg)}
+.dc-body{display:none;padding:16px 18px;border-top:1px solid var(--border)}
+.dc.open .dc-body{display:block}
+
+/* NOTE */
+.note{background:rgba(232,255,0,.05);border-left:2px solid var(--accent);padding:8px 12px;margin-bottom:12px;font-size:13px;color:#bbb}
+.note.orange{background:rgba(255,107,53,.05);border-color:var(--orange)}
+.note.blue{background:rgba(0,229,255,.05);border-color:var(--accent2)}
+.note.green{background:rgba(0,230,118,.05);border-color:var(--green)}
+.note.red{background:rgba(255,23,68,.05);border-color:var(--red)}
+.note.purple{background:rgba(213,0,249,.05);border-color:var(--purple)}
+
+/* EXERCISE TABLE */
+.etbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:12px}
+.etbl th{font-family:'JetBrains Mono';font-size:9px;letter-spacing:1.5px;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--border);text-align:left}
+.etbl td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top}
+.etbl tr:last-child td{border-bottom:none}
+.en{font-weight:700;color:var(--white)}
+.ef{font-size:11px;color:var(--accent);margin-top:1px}
+.es{font-family:'JetBrains Mono';font-size:12px;color:#ffd700;white-space:nowrap}
+.er{font-family:'JetBrains Mono';font-size:11px;color:var(--green);white-space:nowrap}
+.eo{font-size:12px;color:var(--muted2)}
+
+/* CORE BOX */
+.core-box{background:rgba(232,255,0,.04);border:1px solid rgba(232,255,0,.15);padding:14px 16px;margin-top:12px}
+.core-box h4{font-family:'JetBrains Mono';font-size:10px;letter-spacing:2px;color:var(--accent);margin-bottom:10px;text-transform:uppercase}
+.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.core-item{background:var(--surface);border:1px solid var(--border);padding:10px 12px}
+.core-item .ci-name{font-weight:700;font-size:13px}
+.core-item .ci-sets{font-family:'JetBrains Mono';font-size:11px;color:var(--accent);margin-top:2px}
+.core-item .ci-note{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* RUNNING PROGRAM */
+.run-phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px}
+.rp{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--purple);padding:18px}
+.rp h4{font-family:'Bebas Neue';font-size:22px;color:var(--purple);margin-bottom:2px}
+.rp .rw{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);margin-bottom:10px}
+.rp ul{list-style:none}
+.rp ul li{font-size:13px;padding:5px 0;border-bottom:1px solid var(--border);color:#bbb}
+.rp ul li:last-child{border-bottom:none}
+.rp ul li::before{content:'▶ ';color:var(--purple);font-size:9px}
+
+/* MOBILITY */
+.mob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:12px}
+.mob-item{background:var(--card);border:1px solid var(--border);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s}
+.mob-item:hover{border-color:var(--accent2)}
+.mob-item.done{border-color:var(--green);background:rgba(0,230,118,.04)}
+.mob-num{font-family:'Bebas Neue';font-size:28px;color:var(--accent2);line-height:1;min-width:28px}
+.mob-item.done .mob-num{color:var(--green)}
+.mob-info h5{font-weight:700;font-size:13px}
+.mob-info p{font-size:11px;color:var(--muted)}
+.mob-check{margin-left:auto;font-size:18px;opacity:0}
+.mob-item.done .mob-check{opacity:1}
+
+/* TIMER */
+.timer-box{background:var(--card);border:1px solid var(--border);padding:20px;text-align:center;margin-top:16px}
+.timer-display{font-family:'Bebas Neue';font-size:64px;color:var(--accent);line-height:1}
+.timer-label{font-size:13px;color:var(--muted);margin-top:4px}
+.timer-btns{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.t-btn{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:10px 24px;font-family:'JetBrains Mono';font-size:11px;cursor:pointer;transition:all .2s}
+.t-btn:hover{border-color:var(--accent);color:var(--accent)}
+.t-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+
+/* CHARTS */
+.chart-wrap{background:var(--card);border:1px solid var(--border);padding:20px;margin-bottom:12px}
+.chart-wrap h4{font-family:'JetBrains Mono';font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+.chart-wrap canvas{width:100%!important;max-height:200px}
+.chart-empty{text-align:center;color:var(--muted);font-size:13px;padding:30px 0}
+
+/* MACRO LOG */
+.macro-form{background:var(--card);border:1px solid var(--border);padding:20px;margin-bottom:16px}
+.macro-form h4{font-family:'JetBrains Mono';font-size:10px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:14px}
+.macro-inputs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.macro-input-group{display:flex;flex-direction:column;gap:4px}
+.macro-input-group label{font-family:'JetBrains Mono';font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.macro-input-group input{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:8px 12px;font-family:'JetBrains Mono';font-size:13px}
+.macro-input-group input:focus{outline:none;border-color:var(--accent)}
+.macro-log-entry{display:grid;grid-template-columns:90px repeat(4,1fr) 60px;gap:8px;align-items:center;background:var(--card);border:1px solid var(--border);padding:10px 12px;margin-bottom:6px;font-size:13px}
+.macro-log-entry .ml-date{font-family:'JetBrains Mono';font-size:11px;color:var(--accent2)}
+.macro-bar{height:4px;background:var(--border);margin-top:3px}
+.macro-bar-fill{height:100%;transition:width .3s}
+.ml-p .macro-bar-fill{background:var(--green)}
+.ml-c .macro-bar-fill{background:#ffd700}
+.ml-f .macro-bar-fill{background:var(--orange)}
+.ml-k .macro-bar-fill{background:var(--accent)}
+.macro-val{font-weight:600}
+.macro-pct{font-family:'JetBrains Mono';font-size:10px;color:var(--muted)}
+
+/* BODY PHOTOS */
+.photo-upload-area{border:2px dashed var(--border2);padding:40px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:20px;position:relative}
+.photo-upload-area:hover{border-color:var(--accent)}
+.photo-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.photo-card{background:var(--card);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s}
+.photo-card:hover{border-color:var(--accent)}
+.photo-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.photo-card .pc-info{padding:10px 12px}
+.photo-card .pc-date{font-family:'JetBrains Mono';font-size:10px;color:var(--accent2)}
+.photo-card .pc-note{font-size:12px;color:var(--muted);margin-top:2px}
+.photo-card .pc-weight{font-family:'Bebas Neue';font-size:20px;color:var(--accent)}
+.photo-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;padding:20px;overflow-y:auto}
+.photo-modal.open{display:flex;flex-direction:column;align-items:center;gap:16px}
+.photo-modal img{max-width:100%;max-height:60vh;object-fit:contain}
+.photo-modal-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pm-btn{background:var(--card);border:1px solid var(--border2);color:var(--white);padding:10px 20px;font-family:'JetBrains Mono';font-size:11px;cursor:pointer;transition:all .2s}
+.pm-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pm-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.pm-btn.danger{border-color:var(--red);color:var(--red)}
+.ai-analysis-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);padding:16px;font-size:13px;color:#bbb;line-height:1.8;max-width:600px;width:100%;white-space:pre-wrap}
+
+/* AI CHAT */
+.chat-container{display:flex;flex-direction:column;height:calc(100vh - 260px);min-height:400px;background:var(--card);border:1px solid var(--border)}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-track{background:var(--border)}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border2)}
+.msg{display:flex;flex-direction:column;gap:4px;max-width:85%}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.ai{align-self:flex-start}
+.msg-bubble{padding:12px 16px;font-size:14px;line-height:1.7}
+.msg.user .msg-bubble{background:var(--accent);color:#000;font-weight:500}
+.msg.ai .msg-bubble{background:var(--surface);border:1px solid var(--border2);color:var(--white);white-space:pre-wrap}
+.msg-time{font-family:'JetBrains Mono';font-size:10px;color:var(--muted)}
+.chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
+.chat-input{flex:1;background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:12px 16px;font-family:'Sarabun';font-size:14px;resize:none;min-height:48px;max-height:120px}
+.chat-input:focus{outline:none;border-color:var(--accent)}
+.chat-send{background:var(--accent);color:#000;border:none;padding:12px 20px;font-family:'JetBrains Mono';font-size:11px;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.chat-send:hover{opacity:.85}
+.chat-send:disabled{opacity:.4;cursor:not-allowed}
+.chat-typing{display:none;align-self:flex-start;padding:12px 16px;background:var(--surface);border:1px solid var(--border2);color:var(--muted);font-size:13px}
+.chat-typing.show{display:block}
+.quick-questions{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;border-top:1px solid var(--border)}
+.qq{background:var(--surface);border:1px solid var(--border2);color:var(--accent2);padding:6px 12px;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.qq:hover{border-color:var(--accent2);background:rgba(0,229,255,.05)}
+
+/* TRACKER */
+.tracker-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.week-label{font-family:'Bebas Neue';font-size:26px;color:var(--accent)}
+.week-controls{display:flex;gap:8px}
+.wc-btn{background:var(--card);border:1px solid var(--border2);color:var(--white);padding:8px 14px;font-family:'JetBrains Mono';font-size:11px;cursor:pointer;transition:all .2s}
+.wc-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tracker-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px}
+@media(max-width:640px){.tracker-grid{grid-template-columns:repeat(4,1fr)}}
+.tday{background:var(--card);border:1px solid var(--border);padding:10px 8px;display:flex;flex-direction:column;gap:7px}
+.tday-name{font-family:'JetBrains Mono';font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.tday-date{font-family:'Bebas Neue';font-size:20px;color:var(--white);line-height:1;margin-bottom:2px}
+.tday.today{border-color:var(--accent)}
+.tday.today .tday-date{color:var(--accent)}
+.habit-item{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.habit-cb{width:13px;height:13px;border:1px solid var(--border2);background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;cursor:pointer}
+.habit-cb.checked{background:var(--accent);border-color:var(--accent)}
+.habit-cb.checked::after{content:'✓';color:#000;font-size:9px;font-weight:900}
+.habit-txt{font-size:11px;color:var(--muted2);line-height:1.2}
+.habit-item:hover .habit-txt{color:var(--white)}
+.streak-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:18px}
+.streak-c{background:var(--card);border:1px solid var(--border);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.streak-num{font-family:'Bebas Neue';font-size:32px;line-height:1;color:var(--accent)}
+.streak-label{font-size:13px;font-weight:600}
+.streak-sub{font-size:11px;color:var(--muted)}
+
+/* WEIGHT LOG */
+.log-section{margin-top:18px}
+.log-title{font-family:'JetBrains Mono';font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.log-entry{display:grid;grid-template-columns:80px 1fr 80px 24px;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);padding:10px 12px;margin-bottom:6px}
+.log-date{font-family:'JetBrains Mono';font-size:11px;color:var(--accent2)}
+.log-desc{font-size:13px;color:#bbb}
+.log-weight{font-family:'JetBrains Mono';font-size:12px;color:var(--accent);text-align:right}
+.log-del{color:var(--muted);cursor:pointer;font-size:14px;text-align:right}
+.log-del:hover{color:var(--red)}
+.add-log{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.log-input{background:var(--card);border:1px solid var(--border2);color:var(--white);padding:9px 12px;font-family:'Sarabun';font-size:13px;flex:1;min-width:100px}
+.log-input:focus{outline:none;border-color:var(--accent)}
+.log-btn{background:var(--accent);color:#000;border:none;padding:9px 18px;font-family:'JetBrains Mono';font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer}
+.log-btn:hover{opacity:.85}
+
+/* RUNNING LOG */
+.run-log-entry{display:grid;grid-template-columns:80px 60px 60px 60px 1fr 24px;gap:8px;align-items:center;background:var(--card);border:1px solid var(--border);padding:10px 12px;margin-bottom:6px;font-size:13px}
+
+/* SUPP + RECOVERY */
+.supp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.supp{background:var(--card);border:1px solid var(--border);padding:16px;border-top:2px solid var(--accent2)}
+.supp h4{font-family:'Bebas Neue';font-size:20px;color:var(--accent2);margin-bottom:10px}
+.supp-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;gap:8px}
+.supp-row:last-child{border-bottom:none}
+.supp-key{color:#bbb;flex:1}
+.supp-val{font-family:'JetBrains Mono';font-size:11px;color:var(--accent);text-align:right}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.rec{background:var(--card);border:1px solid var(--border);padding:16px}
+.rec-icon{font-size:24px;margin-bottom:8px}
+.rec h4{font-family:'Bebas Neue';font-size:18px;color:var(--accent2);margin-bottom:8px}
+.rec ul{list-style:none;font-size:13px;color:#bbb;line-height:1.8}
+.rec ul li::before{content:'→ ';color:var(--accent)}
+
+/* MEAL PLAN */
+.meal-grid{display:flex;flex-direction:column;gap:8px}
+.meal-c{background:var(--card);border:1px solid var(--border);overflow:hidden}
+.meal-c.open{border-color:rgba(0,229,255,.2)}
+.meal-head{display:grid;grid-template-columns:72px 1fr auto;gap:0;cursor:pointer;user-select:none}
+.meal-time-col{background:#0d0d0d;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;border-right:1px solid var(--border);text-align:center}
+.meal-t{font-family:'JetBrains Mono';font-size:12px;color:var(--accent2);line-height:1.2}
+.meal-lbl{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.meal-summary{padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.meal-name-s{font-weight:700;font-size:13px}
+.meal-kcal-s{font-family:'JetBrains Mono';font-size:11px;color:var(--accent)}
+.meal-kcal-badge{padding:12px 14px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;border-left:1px solid var(--border);min-width:64px}
+.kcal-big{font-family:'Bebas Neue';font-size:28px;color:var(--orange);line-height:1}
+.kcal-lbl{font-size:9px;font-family:'JetBrains Mono';color:var(--muted)}
+.meal-body{display:none;padding:14px 16px;border-top:1px solid var(--border)}
+.meal-c.open .meal-body{display:block}
+.macros-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mc{font-family:'JetBrains Mono';font-size:11px;padding:3px 8px;border-radius:2px}
+.mc-p{background:rgba(0,230,118,.12);color:var(--green)}
+.mc-c{background:rgba(255,215,0,.1);color:#ffd700}
+.mc-f{background:rgba(255,107,53,.12);color:var(--orange)}
+.mc-k{background:rgba(255,255,255,.07);color:var(--white)}
+.totals{background:var(--surface);border:1px solid var(--accent);padding:14px 18px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.tot-item{display:flex;flex-direction:column;gap:1px}
+.tot-v{font-family:'Bebas Neue';font-size:28px;line-height:1}
+.tot-l{font-family:'JetBrains Mono';font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.tot-sep{width:1px;background:var(--border);align-self:stretch}
+
+/* SCHEDULE */
+.alarm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px}
+.alarm-item{background:var(--card);border:1px solid var(--border);padding:12px;border-left:3px solid}
+.alarm-t{font-family:'JetBrains Mono';font-size:15px;line-height:1.2}
+.alarm-act{font-weight:700;font-size:13px;margin-top:4px}
+.alarm-note{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* CAL TABLE */
+.cal-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.cal-tbl th{font-family:'JetBrains Mono';font-size:9px;letter-spacing:1.5px;color:var(--muted);padding:8px;border-bottom:1px solid var(--border);text-align:left}
+.cal-tbl td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.03)}
+.cal-tbl tr:last-child td{border-bottom:none}
+
+/* MEAL PREP */
+.ingredients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:6px;margin-bottom:10px}
+.ingr{background:var(--surface);border:1px solid var(--border);padding:8px 10px}
+.ingr-name{font-weight:600;font-size:13px}
+.ingr-amount{font-family:'JetBrains Mono';font-size:11px;color:var(--accent2);margin-top:1px}
+.ingr-cal{font-size:11px;color:var(--muted)}
+.how-to{background:rgba(255,255,255,.02);border:1px solid var(--border);padding:10px 12px;font-size:13px;color:#bbb;line-height:1.8}
+.how-to ol{padding-left:16px}
+.how-to ol li{padding:2px 0}
+
+/* UTILS */
+.hl-y{color:var(--accent);font-weight:700}
+.hl-g{color:var(--green);font-weight:700}
+.hl-r{color:var(--red);font-weight:700}
+.hl-b{color:var(--accent2);font-weight:700}
+.hl-o{color:var(--orange);font-weight:700}
+hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
+.sec-fin{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:10px}
+.fin-item{background:rgba(232,255,0,.04);border:1px solid rgba(232,255,0,.12);padding:10px 12px;font-size:13px}
+.fin-item strong{color:var(--accent);font-family:'JetBrains Mono';font-size:10px;letter-spacing:1px;display:block;margin-bottom:4px}
+
+/* FOOD CALCULATOR */
+.fc-search-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.fc-input{background:var(--card);border:1px solid var(--border2);color:var(--white);padding:10px 14px;font-family:'Sarabun';font-size:14px;flex:1;min-width:180px}
+.fc-input:focus{outline:none;border-color:var(--accent)}
+.fc-amt{background:var(--card);border:1px solid var(--border2);color:var(--white);padding:10px 12px;font-family:'JetBrains Mono';font-size:13px;width:100px}
+.fc-amt:focus{outline:none;border-color:var(--accent)}
+.fc-btn{background:var(--accent);color:#000;border:none;padding:10px 18px;font-family:'JetBrains Mono';font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.fc-btn:hover{opacity:.85}
+.fc-btn:disabled{opacity:.4;cursor:not-allowed}
+.fc-btn.secondary{background:var(--surface);color:var(--white);border:1px solid var(--border2)}
+.fc-btn.secondary:hover{border-color:var(--accent);color:var(--accent);opacity:1}
+.fc-result{background:var(--card);border:1px solid var(--border2);padding:14px 16px;margin-bottom:12px;display:none}
+.fc-result.show{display:block}
+.fc-food-name{font-weight:700;font-size:15px;margin-bottom:8px;color:var(--white)}
+.fc-macros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.fc-add-btn{background:var(--green);color:#000;border:none;padding:8px 18px;font-family:'JetBrains Mono';font-size:11px;font-weight:700;cursor:pointer}
+.fc-add-btn:hover{opacity:.85}
+.fc-suggestions{background:var(--card);border:1px solid var(--border);margin-bottom:12px;display:none;max-height:200px;overflow-y:auto}
+.fc-suggestions.show{display:block}
+.fc-sug-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.fc-sug-item:hover{background:var(--surface);color:var(--accent)}
+.fc-sug-item:last-child{border-bottom:none}
+.fc-sug-macro{font-family:'JetBrains Mono';font-size:10px;color:var(--muted)}
+.meal-section{background:var(--card);border:1px solid var(--border);margin-bottom:12px}
+.meal-section-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.meal-section-title{font-family:'Bebas Neue';font-size:22px;color:var(--accent2)}
+.meal-time-badge{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);padding:3px 8px;border:1px solid var(--border2)}
+.meal-section-macros{margin-left:auto;display:flex;gap:6px}
+.meal-items-list{padding:8px 0}
+.meal-item{display:grid;grid-template-columns:28px 1fr auto auto auto;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,.03)}
+.meal-item:last-child{border-bottom:none}
+.meal-item-cb{width:16px;height:16px;border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.meal-item-cb.done{background:var(--green);border-color:var(--green)}
+.meal-item-cb.done::after{content:'✓';color:#000;font-size:10px;font-weight:900}
+.meal-item-name{font-size:13px;font-weight:600}
+.meal-item-amount{font-family:'JetBrains Mono';font-size:11px;color:var(--muted2)}
+.meal-item-macros{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);text-align:right;white-space:nowrap}
+.meal-item-del{color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px}
+.meal-item-del:hover{color:var(--red)}
+.meal-note-row{padding:8px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.meal-note-input{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:7px 12px;font-family:'Sarabun';font-size:13px;flex:1}
+.meal-note-input:focus{outline:none;border-color:var(--accent2)}
+.meal-note-saved{font-size:12px;color:var(--muted2);font-style:italic}
+.daily-total-bar{background:var(--surface);border:1px solid var(--accent);padding:16px 20px;margin-top:16px;margin-bottom:8px}
+.daily-total-bar h4{font-family:'JetBrains Mono';font-size:10px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+.dt-row{display:grid;grid-template-columns:80px 1fr 60px;gap:8px;align-items:center;margin-bottom:8px;font-size:13px}
+.dt-label{color:#bbb}
+.dt-bar-wrap{background:var(--border);height:8px}
+.dt-bar-fill{height:100%;transition:width .4s}
+.dt-val{font-family:'JetBrains Mono';font-size:12px;text-align:right}
+.fc-status{font-size:13px;color:var(--muted2);padding:8px 0;font-style:italic}
+
+  .dc-head{grid-template-columns:42px 1fr auto}
+  .meal-head{grid-template-columns:60px 1fr}
+  .meal-kcal-badge{display:none}
+  .log-entry{grid-template-columns:70px 1fr 70px 20px}
+  .run-log-entry{grid-template-columns:70px 50px 50px 50px 1fr}
+}
+
+/* WORKOUT LOG */
+.wk-session{background:var(--card);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
+.wk-session-head{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--dark);border-bottom:1px solid var(--border)}
+.wk-exercise-row{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.03)}
+.wk-exercise-row:last-child{border-bottom:none}
+.wk-ex-title{font-weight:700;font-size:13px;margin-bottom:5px;color:var(--white)}
+.wk-sets-row{display:flex;flex-wrap:wrap;gap:5px}
+.wk-set-chip{font-family:'JetBrains Mono';font-size:11px;padding:3px 8px;background:rgba(232,255,0,.08);border:1px solid rgba(232,255,0,.2);color:var(--accent)}
+.wk-ex-chip{font-size:12px;padding:4px 10px;background:var(--surface);border:1px solid var(--border2);color:var(--accent2);cursor:pointer;transition:all .15s}
+.wk-ex-chip:hover{border-color:var(--accent2);background:rgba(0,229,255,.08)}
+
+/* ── MOBILE OPTIMIZATIONS ── */
+@media(max-width:768px){
+  .hero{padding:32px 16px 24px}
+  .hero h1{font-size:52px}
+  .hero-pills{gap:6px}
+  .pill{padding:8px 12px;min-width:80px}
+  .pill-val{font-size:20px}
+  
+  /* Bottom nav on mobile */
+  .nav{
+    position:fixed;bottom:0;top:auto;left:0;right:0;
+    border-top:1px solid var(--border);border-bottom:none;
+    background:rgba(8,8,8,.98);
+    z-index:300;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .nav-btn{
+    padding:10px 12px;font-size:9px;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    min-width:52px;
+  }
+  .nav-btn .nav-icon{font-size:18px;line-height:1}
+  
+  /* Add bottom padding so content isn't hidden behind bottom nav */
+  body{padding-bottom:72px}
+  
+  .sec{padding:20px 14px 40px}
+  .sh-title{font-size:30px}
+  
+  /* Day cards - full width */
+  .dc-head{grid-template-columns:40px 1fr auto;gap:8px;padding:10px 12px}
+  .dc-num{font-size:28px}
+  .dc-body{padding:14px}
+  
+  /* Tracker - 2 cols on phone */
+  .tracker-grid{grid-template-columns:repeat(4,1fr);gap:4px}
+  
+  /* Charts smaller */
+  .chart-wrap canvas{max-height:160px}
+  
+  /* Food calc */
+  .fc-search-row{flex-direction:column;gap:8px}
+  .fc-input,.fc-amt,.fc-btn{width:100%;max-width:100%}
+  
+  /* Workout log grid */
+  #wkExSuggestions{gap:4px}
+  .wk-ex-chip{font-size:11px;padding:5px 8px}
+  
+  /* Meal section */
+  .meal-section-head{flex-wrap:wrap;gap:6px}
+  .meal-section-macros{flex-wrap:wrap}
+  
+  /* Recovery grid */
+  .rec-grid{grid-template-columns:1fr}
+  .supp-grid{grid-template-columns:1fr}
+  
+  /* Touch targets - bigger */
+  .log-btn,.fc-btn,.t-btn,.wc-btn{min-height:44px;font-size:12px}
+  .habit-item{padding:4px 0;min-height:36px}
+  .habit-cb{width:18px;height:18px}
+}
+
+/* Safe area for iPhone notch */
+.nav{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ghost">v3</div>
+  <div class="hero-inner">
+    <div class="hero-badge">Complete System · v3.0 · AI-Powered</div>
+    <h1>LOCK <em>IN.</em><br>v3.</h1>
+    <p class="hero-sub">ชาย 28 · 183 ซม. · 64 กก. → 70 กก. · 5km sub-30 · AI Coach พร้อมใช้</p>
+    <div class="hero-pills">
+      <div class="pill"><span class="pill-lbl">Split</span><span class="pill-val" style="font-size:18px">Upper/Lower</span><span class="pill-sub">2×/week each</span></div>
+      <div class="pill"><span class="pill-lbl">แคลอรี่</span><span class="pill-val">3,200</span><span class="pill-sub">kcal/วัน</span></div>
+      <div class="pill"><span class="pill-lbl">โปรตีน</span><span class="pill-val">170g</span><span class="pill-sub">เป้า/วัน</span></div>
+      <div class="pill"><span class="pill-lbl">วิ่งเป้า</span><span class="pill-val">sub30</span><span class="pill-sub">5km</span></div>
+      <div class="pill"><span class="pill-lbl">AI Coach</span><span class="pill-val">✓</span><span class="pill-sub">พร้อมใช้งาน</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn on" onclick="go('workout',this)">🏋️ เวท</button>
+  <button class="nav-btn" onclick="go('running',this)">🏃 วิ่ง</button>
+  <button class="nav-btn" onclick="go('mobility',this)">🌅 Mobility</button>
+  <button class="nav-btn" onclick="go('meals',this)">🍽️ โภชนาการ</button>
+  <button class="nav-btn" onclick="go('supps',this)">💊 Supps</button>
+  <button class="nav-btn" onclick="go('progress',this)">📊 Progress</button>
+  <button class="nav-btn" onclick="go('photos',this)">📸 รูปร่าง</button>
+  <button class="nav-btn" onclick="go('ai',this)">🤖 AI Coach</button>
+  <button class="nav-btn" onclick="go('tracker',this)">📋 Tracker</button>
+  <button class="nav-btn" onclick="go('recovery',this)">⚡ Recovery</button>
+  <button class="nav-btn" onclick="go('schedule',this)">⏰ Schedule</button>
+  <button class="nav-btn" onclick="go('foodcalc',this)">🍱 คำนวณอาหาร</button>
+  <button class="nav-btn" onclick="showKeyModal()" style="color:var(--muted)"><span class='nav-icon'>⚙️</span>Settings</button>
+</nav>
+
+<!-- ══════════════════════════════════════
+     TAB 1: WORKOUT
+══════════════════════════════════════ -->
+<div class="sec on" id="workout">
+  <div class="sh">
+    <div class="sh-tag">01 · Weekly Program</div>
+    <div class="sh-title">Upper/Lower Split</div>
+    <div class="sh-desc">4 วันเวท + Core Finisher ทุกวัน + วิ่ง + ฟุตบอลพฤหัส</div>
+  </div>
+
+  <div class="infobox green">
+    <h4>✅ Core Body ทุก Session</h4>
+    เพิ่ม <strong>Core Finisher 10–15 นาที</strong> ท้ายทุก Workout Day · Core แข็งแกร่ง = ยกน้ำหนักได้มากขึ้น + วิ่งได้นานขึ้น + ลดบาดเจ็บ · เป็น Foundation ของทุกท่า Compound
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+    <span class="badge b-up">จันทร์: Upper A</span>
+    <span class="badge b-lo">อังคาร: Lower A</span>
+    <span class="badge b-active">พุธ: Recovery</span>
+    <span class="badge b-up">พฤหัส: Upper B</span>
+    <span class="badge b-lo">ศุกร์: Lower B</span>
+    <span class="badge b-run">เสาร์: Long Run</span>
+    <span class="badge b-rest">อาทิตย์: Rest</span>
+  </div>
+
+  <div class="week">
+
+    <!-- MON: Upper A -->
+    <div class="dc open">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">01</div>
+        <div class="dc-info"><div class="dc-name">วันจันทร์</div><div class="dc-type">UPPER A · Horizontal Push/Pull · 10:30–12:00</div></div>
+        <div class="badges"><span class="badge b-up">UPPER A</span><span class="badge b-core">CORE</span><span class="badge b-run">วิ่งเย็น</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note">⚡ Horizontal patterns วันนี้ · วิ่งเย็น 16:30 Easy Zone 2 หลังพัก ≥4 ชม.</div>
+        <table class="etbl">
+          <tr><th>#</th><th>ท่า + กล้าม</th><th>เซ็ต×ครั้ง</th><th>พัก</th><th>โน้ต</th></tr>
+          <tr><td>1</td><td><div class="en">Barbell Bench Press</div><div class="ef">อกกลาง / ไหล่หน้า / Triceps</div></td><td class="es">4×6–8</td><td class="er">2–3 min</td><td class="eo">Scapula retract · Brace core · Progressive Overload ทุกสัปดาห์</td></tr>
+          <tr><td>2</td><td><div class="en">Barbell Bent-over Row</div><div class="ef">หลังกลาง / Rhomboids / Biceps</div></td><td class="es">4×8–10</td><td class="er">2 min</td><td class="eo">45° หลังตรง · ดึงไปสะดือ · Balance กับ Bench</td></tr>
+          <tr><td>3</td><td><div class="en">Incline DB Press</div><div class="ef">อกบน / ไหล่หน้า</div></td><td class="es">3×10–12</td><td class="er">90 วิ</td><td class="eo">30–45° · ROM กว้างขึ้น</td></tr>
+          <tr><td>4</td><td><div class="en">Seated Cable Row (Close grip)</div><div class="ef">หลังกลาง-ล่าง / Lats</div></td><td class="es">3×12</td><td class="er">90 วิ</td><td class="eo">บีบ Scapula ตอนดึง · ยืดสุดตอนปล่อย</td></tr>
+          <tr><td>5</td><td><div class="en">Overhead Press (OHP)</div><div class="ef">ไหล่กลาง-หน้า / Triceps / Core</div></td><td class="es">3×8–10</td><td class="er">90 วิ</td><td class="eo">Core แน่นตลอด · ไม่แอ่นหลัง</td></tr>
+          <tr><td>6</td><td><div class="en">Face Pull (Cable)</div><div class="ef">Rear Delt / Rotator Cuff</div></td><td class="es">3×15</td><td class="er">60 วิ</td><td class="eo">ป้องกันบาดเจ็บไหล่ · ทำทุก Upper day</td></tr>
+          <tr><td>7</td><td><div class="en">EZ Curl</div><div class="ef">Biceps</div></td><td class="es">3×10–12</td><td class="er">60 วิ</td><td class="eo">ชะลอลง 2 วิ</td></tr>
+          <tr><td>8</td><td><div class="en">Tricep Pushdown (Cable)</div><div class="ef">Triceps</div></td><td class="es">3×12–15</td><td class="er">60 วิ</td><td class="eo">ศอกอยู่กับที่ · บีบตอนกดสุด</td></tr>
+        </table>
+        <div class="core-box">
+          <h4>💪 Core Finisher — จันทร์ (Anterior Chain)</h4>
+          <div class="core-grid">
+            <div class="core-item"><div class="ci-name">Plank</div><div class="ci-sets">3 × 45 วิ</div><div class="ci-note">หลังตรง ไม่ยกก้น</div></div>
+            <div class="core-item"><div class="ci-name">Dead Bug</div><div class="ci-sets">3 × 10/ข้าง</div><div class="ci-note">หลังแนบพื้น หายใจออก</div></div>
+            <div class="core-item"><div class="ci-name">Hollow Hold</div><div class="ci-sets">3 × 30 วิ</div><div class="ci-note">ซุปเปอร์แมนกลับหัว</div></div>
+            <div class="core-item"><div class="ci-name">Ab Wheel (knees)</div><div class="ci-sets">3 × 8</div><div class="ci-note">ถ้าแข็งแกร่งพอทำยืน</div></div>
+          </div>
+        </div>
+        <div class="sec-fin">
+          <div class="fin-item"><strong>วิ่งเย็น 16:30</strong>Easy run 35–40 นาที · Zone 2 · พูดได้คือถูกต้อง</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUE: Lower A -->
+    <div class="dc">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">02</div>
+        <div class="dc-info"><div class="dc-name">วันอังคาร</div><div class="dc-type">LOWER A · Squat Dominant · 10:30–12:00</div></div>
+        <div class="badges"><span class="badge b-lo">LOWER A</span><span class="badge b-core">CORE</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note orange">⚡ Squat focus · ไม่วิ่งเย็น ให้ขาฟื้น · Core ทำงานตลอดผ่าน Bracing</div>
+        <table class="etbl">
+          <tr><th>#</th><th>ท่า + กล้าม</th><th>เซ็ต×ครั้ง</th><th>พัก</th><th>โน้ต</th></tr>
+          <tr><td>1</td><td><div class="en">Barbell Back Squat</div><div class="ef">Quads / Glute / Core</div></td><td class="es">4×6–8</td><td class="er">2–3 min</td><td class="eo">ลึกกว่า Parallel · Brace แน่น · Progressive Overload</td></tr>
+          <tr><td>2</td><td><div class="en">Romanian Deadlift</div><div class="ef">Hamstrings / Glute</div></td><td class="es">4×10–12</td><td class="er">90 วิ</td><td class="eo">สะโพกถอยหลัง · ชะลอลง 2 วิ</td></tr>
+          <tr><td>3</td><td><div class="en">Leg Press</div><div class="ef">Quads / Glute</div></td><td class="es">3×12</td><td class="er">90 วิ</td><td class="eo">เท้ากลางแผ่น · ไม่ล็อคเข่า</td></tr>
+          <tr><td>4</td><td><div class="en">Walking Lunges (DB)</div><div class="ef">Quads / Glute / Balance</div></td><td class="es">3×12/ข้าง</td><td class="er">75 วิ</td><td class="eo">เข่าหน้าไม่เกินปลายเท้า</td></tr>
+          <tr><td>5</td><td><div class="en">Leg Extension</div><div class="ef">Quad Isolation</div></td><td class="es">3×15</td><td class="er">60 วิ</td><td class="eo">บีบ Quad 1 วิตอนยืดสุด</td></tr>
+          <tr><td>6</td><td><div class="en">Lying Leg Curl</div><div class="ef">Hamstrings</div></td><td class="es">3×12–15</td><td class="er">60 วิ</td><td class="eo">ชะลอลง 2 วิ</td></tr>
+          <tr><td>7</td><td><div class="en">Standing Calf Raise</div><div class="ef">Gastrocnemius</div></td><td class="es">4×15–20</td><td class="er">45 วิ</td><td class="eo">ยืดน่องลงให้สุด</td></tr>
+        </table>
+        <div class="core-box">
+          <h4>💪 Core Finisher — อังคาร (Rotational + Anti-rotation)</h4>
+          <div class="core-grid">
+            <div class="core-item"><div class="ci-name">Pallof Press</div><div class="ci-sets">3 × 12/ข้าง</div><div class="ci-note">Anti-rotation สำหรับกีฬา</div></div>
+            <div class="core-item"><div class="ci-name">Bird Dog</div><div class="ci-sets">3 × 10/ข้าง</div><div class="ci-note">หลังแนบพื้น เคลื่อนช้า</div></div>
+            <div class="core-item"><div class="ci-name">McGill Curl-up</div><div class="ci-sets">3 × 8</div><div class="ci-note">ไม่ใช่ Sit-up แบบเก่า</div></div>
+            <div class="core-item"><div class="ci-name">Side Plank</div><div class="ci-sets">3 × 30 วิ/ข้าง</div><div class="ci-note">Lateral stability</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WED: Recovery -->
+    <div class="dc">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">03</div>
+        <div class="dc-info"><div class="dc-name">วันพุธ</div><div class="dc-type">ACTIVE RECOVERY + Tempo Run</div></div>
+        <div class="badges"><span class="badge b-active">RECOVERY</span><span class="badge b-run">TEMPO RUN</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note green">✅ วันนี้สำคัญมากสำหรับ <strong>5km sub-30</strong> — เพิ่ม Tempo Run วันพุธเพื่อสร้าง Lactate Threshold</div>
+        <table class="etbl">
+          <tr><th>กิจกรรม</th><th>เวลา</th><th>จุดประสงค์</th><th>โน้ต</th></tr>
+          <tr><td><div class="en">Foam Rolling + Stretching</div></td><td class="es">15–20 นาที</td><td class="er">Recovery</td><td class="eo">หลัง / ขา / ไหล่ · กด 30 วิ/จุด</td></tr>
+          <tr><td><div class="en">Mobility Work</div></td><td class="es">10 นาที</td><td class="er">ROM</td><td class="eo">Hip flexor / Thoracic rotation</td></tr>
+          <tr><td><div class="en">🔥 Tempo Run (16:30)</div><div class="ef">สำคัญสำหรับ sub-30</div></td><td class="es">30–40 นาที</td><td class="er">Speed Build</td><td class="eo">ดูแผน Tempo ใน Tab วิ่ง</td></tr>
+        </table>
+        <div class="note blue">💡 ถ้าล้ามาก: ข้าม Tempo → เดิน + Foam roll แทน อย่าฝืน</div>
+      </div>
+    </div>
+
+    <!-- THU: Upper B + Football (or Backup) -->
+    <div class="dc">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">04</div>
+        <div class="dc-info"><div class="dc-name">วันพฤหัสบดี</div><div class="dc-type">UPPER B + ⚽ 20:00 · หรือ Backup Program</div></div>
+        <div class="badges"><span class="badge b-up">UPPER B</span><span class="badge b-core">CORE</span><span class="badge b-foot">⚽ 20:00</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note red">⚠️ มีฟุตบอลคืนนี้ → ไม่วิ่งเย็น เซฟพลังไว้ · ถ้าไม่ได้เตะบอล → ดู <strong>Backup Program</strong> ด้านล่าง</div>
+        <table class="etbl">
+          <tr><th>#</th><th>ท่า + กล้าม</th><th>เซ็ต×ครั้ง</th><th>พัก</th><th>โน้ต</th></tr>
+          <tr><td>1</td><td><div class="en">Overhead Press (OHP) — Main</div><div class="ef">ไหล่ / Triceps / Core</div></td><td class="es">4×6–8</td><td class="er">2–3 min</td><td class="eo">ท่าหลักวันนี้ · Vertical Push</td></tr>
+          <tr><td>2</td><td><div class="en">Pull-ups / Lat Pulldown</div><div class="ef">Lats / หลังกว้าง / Biceps</div></td><td class="es">4×6–10</td><td class="er">2 min</td><td class="eo">ดึงด้วย Elbow ไม่ใช่มือ</td></tr>
+          <tr><td>3</td><td><div class="en">Arnold Press (DB)</div><div class="ef">ไหล่ทั้ง 3 หัว</div></td><td class="es">3×10–12</td><td class="er">90 วิ</td><td class="eo">หมุนข้อมือขณะยก</td></tr>
+          <tr><td>4</td><td><div class="en">Single-arm DB Row</div><div class="ef">หลังหนา / Rhomboids</div></td><td class="es">3×10/ข้าง</td><td class="er">90 วิ</td><td class="eo">Unilateral · แก้ความไม่สมมาตร</td></tr>
+          <tr><td>5</td><td><div class="en">Lateral Raise (Cable)</div><div class="ef">ไหล่กลาง</div></td><td class="es">4×15</td><td class="er">60 วิ</td><td class="eo">น้ำหนักเบา form สำคัญกว่า</td></tr>
+          <tr><td>6</td><td><div class="en">Rear Delt Fly / Face Pull</div><div class="ef">Posterior Delt</div></td><td class="es">3×15</td><td class="er">60 วิ</td><td class="eo">ไหล่หลัง ป้องกันบาดเจ็บ</td></tr>
+          <tr><td>7</td><td><div class="en">Hammer Curl</div><div class="ef">Brachialis</div></td><td class="es">3×12</td><td class="er">60 วิ</td><td class="eo">ความหนาแขน</td></tr>
+          <tr><td>8</td><td><div class="en">Overhead Tricep Extension</div><div class="ef">Triceps Long Head</div></td><td class="es">3×12</td><td class="er">60 วิ</td><td class="eo">ยืด Long Head เต็ม</td></tr>
+        </table>
+        <div class="core-box">
+          <h4>💪 Core Finisher — พฤหัส (Power + Stability)</h4>
+          <div class="core-grid">
+            <div class="core-item"><div class="ci-name">Hanging Knee Raise</div><div class="ci-sets">3 × 12</div><div class="ci-note">ควบคุม lower abs</div></div>
+            <div class="core-item"><div class="ci-name">Cable Crunch</div><div class="ci-sets">3 × 15</div><div class="ci-note">โค้งจาก Spine</div></div>
+            <div class="core-item"><div class="ci-name">Plank w/ Shoulder Tap</div><div class="ci-sets">3 × 10/ข้าง</div><div class="ci-note">เพิ่ม Instability</div></div>
+          </div>
+        </div>
+        <hr class="div">
+        <div class="note orange">🔄 <strong>Backup Program — กรณีไม่ได้เตะบอล:</strong></div>
+        <table class="etbl">
+          <tr><th>Option</th><th>กิจกรรม</th><th>เวลา</th><th>โน้ต</th></tr>
+          <tr><td><span class="hl-y">A</span></td><td><div class="en">🔥 HIIT Cardio Circuit</div></td><td class="es">30 นาที</td><td class="eo">Burpees / Jump squat / Mountain climber / High knees · 40วิเล่น 20วิพัก × 8 rounds · ทดแทนฟุตบอลได้ดีที่สุด</td></tr>
+          <tr><td><span class="hl-g">B</span></td><td><div class="en">🚴 Zone 2 Cardio</div></td><td class="es">40 นาที</td><td class="eo">ปั่นจักรยาน / เดินเร็ว / วิ่งเบา · ถ้าร่างกายล้ามาก</td></tr>
+          <tr><td><span class="hl-b">C</span></td><td><div class="en">🏊 Interval Run</div></td><td class="es">30 นาที</td><td class="eo">วิ่ง 1 min เร็ว / เดิน 1 min × 15 rounds · สร้าง Cardio base</td></tr>
+        </table>
+        <div class="note orange">⚽ ก่อนฟุตบอล 20:00: กิน 18:00 · น้ำ 500ml · วอร์มอัพ 5 นาที</div>
+      </div>
+    </div>
+
+    <!-- FRI: Lower B -->
+    <div class="dc">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">05</div>
+        <div class="dc-info"><div class="dc-name">วันศุกร์</div><div class="dc-type">LOWER B · Hip-Hinge / Posterior Chain · 10:30–12:00</div></div>
+        <div class="badges"><span class="badge b-lo">LOWER B</span><span class="badge b-core">CORE</span><span class="badge b-run">วิ่งเย็น</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note">⚡ Deadlift เป็น Main · วิ่งเย็นได้ถ้าแรงเหลือ Easy 20–25 นาที</div>
+        <table class="etbl">
+          <tr><th>#</th><th>ท่า + กล้าม</th><th>เซ็ต×ครั้ง</th><th>พัก</th><th>โน้ต</th></tr>
+          <tr><td>1</td><td><div class="en">Conventional Deadlift</div><div class="ef">หลัง / Glute / Hamstring / Core</div></td><td class="es">4×5</td><td class="er">3 min</td><td class="eo">Brace ก่อนยกทุกครั้ง · หลังตรง</td></tr>
+          <tr><td>2</td><td><div class="en">Bulgarian Split Squat (DB)</div><div class="ef">Quads / Glute ทีละข้าง</div></td><td class="es">3×10/ข้าง</td><td class="er">90 วิ</td><td class="eo">Unilateral = แก้ความไม่สมมาตร</td></tr>
+          <tr><td>3</td><td><div class="en">Hip Thrust (Barbell)</div><div class="ef">Glute Max</div></td><td class="es">3×12–15</td><td class="er">90 วิ</td><td class="eo">บีบก้นค้าง 1 วิ · Power สำหรับวิ่ง</td></tr>
+          <tr><td>4</td><td><div class="en">Leg Press (เท้าสูง)</div><div class="ef">Glute / Hamstring</div></td><td class="es">3×12</td><td class="er">90 วิ</td><td class="eo">เน้น Glute มากขึ้น</td></tr>
+          <tr><td>5</td><td><div class="en">Lying Leg Curl</div><div class="ef">Hamstrings</div></td><td class="es">3×12</td><td class="er">60 วิ</td><td class="eo">Slow eccentric 3 วิ</td></tr>
+          <tr><td>6</td><td><div class="en">Seated Calf Raise</div><div class="ef">Soleus</div></td><td class="es">4×15–20</td><td class="er">45 วิ</td><td class="eo">สลับกับ Standing Lower A</td></tr>
+        </table>
+        <div class="core-box">
+          <h4>💪 Core Finisher — ศุกร์ (Lower Core + Bracing)</h4>
+          <div class="core-grid">
+            <div class="core-item"><div class="ci-name">Hanging Leg Raise</div><div class="ci-sets">3 × 10</div><div class="ci-note">ควบคุม ไม่โยก</div></div>
+            <div class="core-item"><div class="ci-name">Russian Twist (DB)</div><div class="ci-sets">3 × 20</div><div class="ci-note">Rotational power</div></div>
+            <div class="core-item"><div class="ci-name">Suitcase Carry</div><div class="ci-sets">3 × 30m/ข้าง</div><div class="ci-note">ถือ KB/DB เดิน</div></div>
+            <div class="core-item"><div class="ci-name">Plank Shoulder Tap</div><div class="ci-sets">3 × 12/ข้าง</div><div class="ci-note">Anti-rotation</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAT: Long Run -->
+    <div class="dc">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">06</div>
+        <div class="dc-info"><div class="dc-name">วันเสาร์</div><div class="dc-type">Long Run เสาร์เช้า 07:30 · สวนสาธารณะ</div></div>
+        <div class="badges"><span class="badge b-run">LONG RUN</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note purple">🏃 ไม่สน pace · เป้าคือวิ่ง 1 ชั่วโมงไม่หอบ · Zone 2 ตลอด · ดูแผน Long Run ใน Tab วิ่ง</div>
+        <table class="etbl">
+          <tr><th>Phase</th><th>Week</th><th>เป้า</th><th>โน้ต</th></tr>
+          <tr><td>Base</td><td class="es">1–4</td><td class="er">40–50 นาที</td><td class="eo">Run-walk ถ้าต้อง</td></tr>
+          <tr><td>Build</td><td class="es">5–8</td><td class="er">50–60 นาที</td><td class="eo">วิ่งต่อเนื่อง</td></tr>
+          <tr><td>Peak</td><td class="es">9–12</td><td class="er">60+ นาที</td><td class="eo">✓ ถึงเป้า</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUN: Rest -->
+    <div class="dc">
+      <div class="dc-head" onclick="tog(this)">
+        <div class="dc-num">07</div>
+        <div class="dc-info"><div class="dc-name">วันอาทิตย์</div><div class="dc-type">FULL REST + Meal Prep</div></div>
+        <div class="badges"><span class="badge b-rest">REST</span></div>
+        <div class="dc-tog">▾</div>
+      </div>
+      <div class="dc-body">
+        <div class="note green">🌿 ห้ามเล่นเวท ห้ามวิ่งหนัก · Meal Prep 16:00 · ชั่งน้ำหนักจันทร์เช้า</div>
+        <table class="etbl">
+          <tr><th>กิจกรรม</th><th>เวลา</th><th>โน้ต</th></tr>
+          <tr><td><div class="en">Foam Roll + Stretch เบา</div></td><td class="es">15 นาที</td><td class="eo">หลัง / ขา / ไหล่</td></tr>
+          <tr><td><div class="en">Meal Prep</div></td><td class="es">16:00 (90 นาที)</td><td class="eo">ซูวีไก่ + ข้าวแช่แข็ง + ต้มไข่</td></tr>
+          <tr><td><div class="en">วางแผนสัปดาห์ใหม่</div></td><td class="es">15 นาที</td><td class="eo">Log น้ำหนัก · ถ่ายรูป Progress</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 2: RUNNING PROGRAM
+══════════════════════════════════════ -->
+<div class="sec" id="running">
+  <div class="sh">
+    <div class="sh-tag">02 · Running Program</div>
+    <div class="sh-title">5km Sub-30</div>
+    <div class="sh-desc">ปัจจุบัน: 5km @ pace 8 (~40 นาที) → เป้า: sub-30 (pace 6:00/km)</div>
+  </div>
+
+  <div class="infobox">
+    <h4>📊 วิเคราะห์สถานะปัจจุบัน</h4>
+    5km @ pace 8 = ~40 นาที · ต้องลด <strong>~10 นาที</strong> (25% improvement) · Realistic timeline: <strong>10–14 สัปดาห์</strong> ด้วยโปรแกรมที่ถูกต้อง · กุญแจสำคัญ: <strong>Tempo Run ทุกพุธ + Long Run เสาร์</strong> · ห้ามเพิ่มระยะเร็วเกิน 10%/สัปดาห์
+  </div>
+
+  <div class="run-phases">
+    <div class="rp">
+      <h4>PHASE 1</h4>
+      <div class="rw">สัปดาห์ 1–3 · Base Building</div>
+      <ul>
+        <li>จันทร์: Easy 30 นาที pace 7:30–8:00</li>
+        <li>พุธ: Fartlek 30 นาที (สลับเร็ว-ช้า)</li>
+        <li>เสาร์: Long run 40–45 นาที Easy</li>
+        <li>เป้า pace: ไม่สน — focus ที่ Form</li>
+        <li>ฟุตบอลพฤหัส = Cardio supplement</li>
+      </ul>
+    </div>
+    <div class="rp">
+      <h4>PHASE 2</h4>
+      <div class="rw">สัปดาห์ 4–6 · Lactate Threshold</div>
+      <ul>
+        <li>จันทร์: Easy 35 นาที pace 7:30</li>
+        <li>พุธ: Tempo 20 นาที @ pace 6:30–7:00</li>
+        <li>เสาร์: Long run 50 นาที Easy</li>
+        <li>เป้า: วิ่ง 3km ได้โดยไม่หยุด</li>
+        <li>เริ่มรู้สึก pace เร็วขึ้น</li>
+      </ul>
+    </div>
+    <div class="rp">
+      <h4>PHASE 3</h4>
+      <div class="rw">สัปดาห์ 7–10 · Speed Work</div>
+      <ul>
+        <li>จันทร์: Easy 40 นาที pace 7:00</li>
+        <li>พุธ: Intervals 400m × 6 reps @ pace 5:30</li>
+        <li>เสาร์: Long run 55–60 นาที</li>
+        <li>เป้า: 5km ต่อเนื่อง ใน 35 นาที</li>
+        <li>เริ่มรู้สึกว่า sub-30 เป็นไปได้</li>
+      </ul>
+    </div>
+    <div class="rp">
+      <h4>PHASE 4</h4>
+      <div class="rw">สัปดาห์ 11–14 · Race Pace</div>
+      <ul>
+        <li>จันทร์: Easy 35 นาที pace 6:30</li>
+        <li>พุธ: Tempo 25 นาที @ pace 6:00</li>
+        <li>เสาร์: Time Trial 5km</li>
+        <li>เป้า: 5km ใน 30 นาที ✓</li>
+        <li>สัปดาห์ 14: ทดสอบ Race !</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div style="font-family:'Bebas Neue';font-size:28px;margin-bottom:14px;color:var(--purple)">🏃 บันทึกการวิ่ง</div>
+  <div class="add-log" style="margin-bottom:12px">
+    <input class="log-input" id="runDate" type="date" style="max-width:140px">
+    <input class="log-input" id="runDist" type="number" step="0.1" placeholder="ระยะ (km)" style="max-width:120px">
+    <input class="log-input" id="runTime" type="text" placeholder="เวลา (นาที:วิ)" style="max-width:120px">
+    <input class="log-input" id="runPace" type="text" placeholder="Pace (min/km)" style="max-width:120px">
+    <input class="log-input" id="runNote" type="text" placeholder="โน้ต">
+    <button class="log-btn" onclick="addRunLog()">+ บันทึก</button>
+  </div>
+  <div id="runLogList"></div>
+
+  <hr class="div">
+  <div class="infobox blue">
+    <h4>💡 Tempo Run คืออะไร (สำหรับ sub-30)</h4>
+    Tempo pace = pace ที่รู้สึก <strong>"หนักพอดี"</strong> พูดได้แค่ 2–3 คำ · สำหรับคุณ Tempo ตอนนี้คือ ~pace 6:30–7:00 · เมื่อ Tempo pace เท่ากับ Race pace เก่า = คุณแข็งแกร่งขึ้นแล้ว · ทำพุธเท่านั้น ห้ามทำเพิ่ม
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 3: MORNING MOBILITY
+══════════════════════════════════════ -->
+<div class="sec" id="mobility">
+  <div class="sh">
+    <div class="sh-tag">03 · Morning Mobility</div>
+    <div class="sh-title">Mobility เช้า</div>
+    <div class="sh-desc">10–15 นาที ทุกเช้า ก่อนอาหาร · ทำได้ที่บ้านบนเสื่อโยคะ</div>
+  </div>
+
+  <div class="infobox green">
+    <h4>✅ ทำไม Morning Mobility ถึงสำคัญ</h4>
+    WFH นั่งทั้งวัน → Hip flexor ตึง · หลังล่างปวด · Thoracic spine แข็ง · Mobility เช้าแก้ทุกปัญหานี้ใน 10 นาที · ช่วย Squat ลึกขึ้น · วิ่งได้มีประสิทธิภาพขึ้น · ลดบาดเจ็บ
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <div style="font-family:'Bebas Neue';font-size:24px;color:var(--accent2)">Routine วันนี้</div>
+    <button class="t-btn primary" onclick="resetMob()">🔄 Reset</button>
+  </div>
+
+  <div class="mob-grid" id="mobGrid"></div>
+
+  <div class="timer-box">
+    <div class="timer-display" id="timerDisplay">00:30</div>
+    <div class="timer-label" id="timerLabel">กด Start เพื่อเริ่ม Timer สำหรับการ Hold</div>
+    <div class="timer-btns">
+      <button class="t-btn" onclick="setTimer(30)">30 วิ</button>
+      <button class="t-btn" onclick="setTimer(45)">45 วิ</button>
+      <button class="t-btn" onclick="setTimer(60)">60 วิ</button>
+      <button class="t-btn primary" id="timerStartBtn" onclick="toggleTimer()">▶ Start</button>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div class="infobox blue">
+    <h4>📌 Tips การทำ Mobility</h4>
+    ทำหลังตื่นนอน 5–10 นาที ก่อนกินข้าว · ไม่ต้องวอร์มอัพก่อน (เคลื่อนไหวช้า) · เจ็บเล็กน้อย = โอเค · เจ็บแปลบ = หยุดทันที · <strong>ทำสม่ำเสมอ 3 สัปดาห์ = เห็นผลชัด</strong>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 4: MEALS + MACRO LOG
+══════════════════════════════════════ -->
+<div class="sec" id="meals">
+  <div class="sh">
+    <div class="sh-tag">04 · Nutrition</div>
+    <div class="sh-title">ตารางกิน + Macro Log</div>
+    <div class="sh-desc">3,200 kcal · P:228g · C:419g · F:88g</div>
+  </div>
+
+  <!-- MACRO LOG -->
+  <div class="macro-form">
+    <h4>📝 บันทึก Macro วันนี้</h4>
+    <div class="macro-inputs">
+      <div class="macro-input-group">
+        <label>วันที่</label>
+        <input type="date" id="macroDate" class="log-input">
+      </div>
+      <div class="macro-input-group">
+        <label>Protein (g)</label>
+        <input type="number" id="macroP" placeholder="เป้า 228g" class="log-input">
+      </div>
+      <div class="macro-input-group">
+        <label>Carbs (g)</label>
+        <input type="number" id="macroC" placeholder="เป้า 419g" class="log-input">
+      </div>
+      <div class="macro-input-group">
+        <label>Fat (g)</label>
+        <input type="number" id="macroF" placeholder="เป้า 88g" class="log-input">
+      </div>
+      <div class="macro-input-group">
+        <label>Calories (kcal)</label>
+        <input type="number" id="macroK" placeholder="เป้า 3200" class="log-input">
+      </div>
+    </div>
+    <button class="log-btn" onclick="addMacroLog()">+ บันทึกวันนี้</button>
+  </div>
+
+  <div id="macroLogList"></div>
+
+  <hr class="div">
+
+  <!-- MEAL TIMELINE -->
+  <div style="font-family:'Bebas Neue';font-size:28px;margin-bottom:12px;color:var(--accent)">7 มื้อต่อวัน</div>
+  <div class="meal-grid">
+    <div class="meal-c open">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">09:00</div><div class="meal-lbl">มื้อ 1</div></div>
+        <div class="meal-summary"><div class="meal-name-s">🥤 Smoothie + ไข่ต้ม 2 ฟอง</div><div class="meal-kcal-s">P:52g · C:77g · F:30g</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">790</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <p style="font-size:13px;color:#bbb;margin-bottom:10px">สูตรปัจจุบัน (อัปเดตแล้ว):</p>
+        <div class="ingredients-grid">
+          <div class="ingr"><div class="ingr-name">Rolled Oats</div><div class="ingr-amount">40g (แช่ 10 นาทีก่อนปั่น)</div><div class="ingr-cal">~150 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">Whey Protein</div><div class="ingr-amount">1.5 scoop (40g)</div><div class="ingr-cal">~160 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">Peanut Butter</div><div class="ingr-amount">30g</div><div class="ingr-cal">~180 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">Frozen Strawberry</div><div class="ingr-amount">100g</div><div class="ingr-cal">~33 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">กล้วยหอม</div><div class="ingr-amount">1 ลูก</div><div class="ingr-cal">~90 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">นม UHT</div><div class="ingr-amount">350ml</div><div class="ingr-cal">~210 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">น้ำแข็ง</div><div class="ingr-amount">1 ถ้วย</div><div class="ingr-cal">0 kcal</div></div>
+          <div class="ingr"><div class="ingr-name">ไข่ต้ม</div><div class="ingr-amount">2 ฟอง (กินคู่)</div><div class="ingr-cal">~140 kcal</div></div>
+        </div>
+        <div class="how-to" style="margin-top:8px"><ol><li>ปั่นนม+น้ำแข็ง+สตรอว์เบอร์รี่ก่อน 20 วิ</li><li>ใส่ของแห้ง ปั่นต่อ 45 วิ → เนียนสนิท</li><li>แช่ตู้เย็นได้ 24h เติมนม 50ml ก่อนดื่ม</li></ol></div>
+        <div class="macros-row"><span class="mc mc-p">P: 52g</span><span class="mc mc-c">C: 77g</span><span class="mc mc-f">F: 30g</span><span class="mc mc-k">790 kcal</span></div>
+      </div>
+    </div>
+    <div class="meal-c">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">10:00</div><div class="meal-lbl">Pre-WO</div></div>
+        <div class="meal-summary"><div class="meal-name-s">⚡ ชาเขียว + กล้วย / อินทผลัม</div><div class="meal-kcal-s">แทนกาแฟ · คาร์บเร็ว</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">150</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <div class="how-to">เลือก 1: ชาเขียว 1 ถ้วย + กล้วย 1 ลูก · หรือ อินทผลัม 3 ลูก · ดื่มน้ำ 300ml ด้วย · กิน 30 นาทีก่อนเวท</div>
+        <div class="macros-row"><span class="mc mc-c">C: 30–35g</span><span class="mc mc-k">~150 kcal</span></div>
+      </div>
+    </div>
+    <div class="meal-c">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">12:00</div><div class="meal-lbl">Post-WO</div></div>
+        <div class="meal-summary"><div class="meal-name-s">🥤 Post-WO Shake + Creatine 5g</div><div class="meal-kcal-s">P:42g · C:40g · F:5g</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">380</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <div class="how-to">Whey 1.5 scoop + นม 300ml + กล้วย + Creatine 5g · ปั่น 30 วิ · ⚠️ กินภายใน 30 นาทีหลังเวท</div>
+        <div class="macros-row"><span class="mc mc-p">P: 42g</span><span class="mc mc-c">C: 40g</span><span class="mc mc-f">F: 5g</span><span class="mc mc-k">380 kcal</span></div>
+      </div>
+    </div>
+    <div class="meal-c">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">13:30</div><div class="meal-lbl">มื้อ 4</div></div>
+        <div class="meal-summary"><div class="meal-name-s">🍚 Lunch — ข้าว + โปรตีน + ผัก</div><div class="meal-kcal-s">P:50g · C:90g · F:14g</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">690</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <div class="how-to">ซูวีไก่ 150–180g + ข้าว 220g + บล็อคโคลี่ · หรือ เนื้อบด + ข้าว · หรือ ปลานึ่ง + ข้าว · เน้นเคี้ยวง่าย อาหารนุ่ม</div>
+        <div class="macros-row"><span class="mc mc-p">P: 50g</span><span class="mc mc-c">C: 90g</span><span class="mc mc-f">F: 14g</span><span class="mc mc-k">690 kcal</span></div>
+      </div>
+    </div>
+    <div class="meal-c">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">16:00</div><div class="meal-lbl">มื้อ 5</div></div>
+        <div class="meal-summary"><div class="meal-name-s">🥤 Mega Smoothie บ่าย</div><div class="meal-kcal-s">P:25g · C:85g · F:20g</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">620</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <div class="how-to">นม 350ml + กล้วย 2 ลูก + PB 2 ช้อน + โอ้ต 40g → ปั่น 45 วิ · วันวิ่ง: กินก่อนวิ่ง 45 นาที</div>
+        <div class="macros-row"><span class="mc mc-p">P: 25g</span><span class="mc mc-c">C: 85g</span><span class="mc mc-f">F: 20g</span><span class="mc mc-k">620 kcal</span></div>
+      </div>
+    </div>
+    <div class="meal-c">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">19:00</div><div class="meal-lbl">มื้อ 6</div></div>
+        <div class="meal-summary"><div class="meal-name-s">🍽️ Dinner + D3K2 + Omega-3</div><div class="meal-kcal-s">P:45g · C:75g · F:14g</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">610</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <div class="how-to">ปลานึ่งมะนาว / ไข่ดาว 3 ฟอง + หมูย่าง / ต้มยำไก่ + ข้าว · 💊 กิน MakeMoves D3K2 + Omega-3 ตอนนี้</div>
+        <div class="macros-row"><span class="mc mc-p">P: 45g</span><span class="mc mc-c">C: 75g</span><span class="mc mc-f">F: 14g</span><span class="mc mc-k">610 kcal</span></div>
+      </div>
+    </div>
+    <div class="meal-c">
+      <div class="meal-head" onclick="togM(this)">
+        <div class="meal-time-col"><div class="meal-t">22:00</div><div class="meal-lbl">มื้อ 7</div></div>
+        <div class="meal-summary"><div class="meal-name-s">🥛 Pre-bed + Zinc + Magnesium</div><div class="meal-kcal-s">P:28g · C:22g · F:12g</div></div>
+        <div class="meal-kcal-badge"><div class="kcal-big">310</div><div class="kcal-lbl">KCAL</div></div>
+      </div>
+      <div class="meal-body">
+        <div class="how-to">นม 300ml + ไข่ต้ม 2 ฟอง · หรือ กรีกโยเกิร์ต 150g + ถั่วอบ · 💊 Zinc + Magnesium กับน้ำเปล่า (ไม่ใช่นม)</div>
+        <div class="macros-row"><span class="mc mc-p">P: 28g</span><span class="mc mc-c">C: 22g</span><span class="mc mc-f">F: 12g</span><span class="mc mc-k">310 kcal</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="totals">
+    <div class="tot-item"><div class="tot-v" style="color:var(--orange)">3,190</div><div class="tot-l">kcal</div></div>
+    <div class="tot-sep"></div>
+    <div class="tot-item"><div class="tot-v" style="color:var(--green)">242g</div><div class="tot-l">โปรตีน</div></div>
+    <div class="tot-sep"></div>
+    <div class="tot-item"><div class="tot-v" style="color:#ffd700">419g</div><div class="tot-l">คาร์บ</div></div>
+    <div class="tot-sep"></div>
+    <div class="tot-item"><div class="tot-v" style="color:var(--accent2)">95g</div><div class="tot-l">ไขมัน</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 5: SUPPLEMENTS
+══════════════════════════════════════ -->
+<div class="sec" id="supps">
+  <div class="sh">
+    <div class="sh-tag">05 · Supplements</div>
+    <div class="sh-title">อาหารเสริม</div>
+    <div class="sh-desc">Whey · Creatine · MakeMoves D3K2 (2,500 IU) · Omega-3 · Zinc · Magnesium</div>
+  </div>
+  <div class="supp-grid">
+    <div class="supp"><h4>💪 WHEY</h4>
+      <div class="supp-row"><span class="supp-key">เวลา</span><span class="supp-val">Post-WO &lt;30 นาที</span></div>
+      <div class="supp-row"><span class="supp-key">ปริมาณ</span><span class="supp-val">1.5 scoop (40g)</span></div>
+      <div class="supp-row"><span class="supp-key">ผสมกับ</span><span class="supp-val">นม 300ml + กล้วย</span></div>
+    </div>
+    <div class="supp"><h4>⚡ CREATINE</h4>
+      <div class="supp-row"><span class="supp-key">เวลา</span><span class="supp-val">Post-WO กับ Whey</span></div>
+      <div class="supp-row"><span class="supp-key">ปริมาณ</span><span class="supp-val">5g ทุกวัน (ไม่ขาด)</span></div>
+      <div class="supp-row"><span class="supp-key">สำคัญ</span><span class="supp-val">น้ำ ≥3.5L/วัน</span></div>
+    </div>
+    <div class="supp" style="border-top-color:var(--accent)"><h4 style="color:var(--accent)">☀️ D3K2 (MakeMoves)</h4>
+      <div class="supp-row"><span class="supp-key">เวลา</span><span class="supp-val">มื้อเย็น 19:00</span></div>
+      <div class="supp-row"><span class="supp-key">ปริมาณ</span><span class="supp-val">2,500 IU D3 + K2</span></div>
+      <div class="supp-row"><span class="supp-key">กินกับ</span><span class="supp-val">อาหารมีไขมัน ✓</span></div>
+      <div class="supp-row"><span class="supp-key">ทำไมเลือกนี้</span><span class="supp-val">Dr.PONG แค่ 600 IU — น้อยเกิน</span></div>
+    </div>
+    <div class="supp" style="border-top-color:var(--pink)"><h4 style="color:var(--pink)">🐟 OMEGA-3</h4>
+      <div class="supp-row"><span class="supp-key">เวลา</span><span class="supp-val">มื้อเย็น 19:00</span></div>
+      <div class="supp-row"><span class="supp-key">ปริมาณ</span><span class="supp-val">2–3g EPA+DHA</span></div>
+      <div class="supp-row"><span class="supp-key">กับ D3K2</span><span class="supp-val">พร้อมกันเลย ✓</span></div>
+    </div>
+    <div class="supp" style="border-top-color:var(--green)"><h4 style="color:var(--green)">💊 ZINC</h4>
+      <div class="supp-row"><span class="supp-key">เวลา</span><span class="supp-val">ก่อนนอน 22:00</span></div>
+      <div class="supp-row"><span class="supp-key">ปริมาณ</span><span class="supp-val">15–30mg</span></div>
+      <div class="supp-row"><span class="supp-key">ห้ามกินกับ</span><span class="supp-val">นม / Calcium</span></div>
+    </div>
+    <div class="supp" style="border-top-color:var(--purple)"><h4 style="color:var(--purple)">🌙 MAGNESIUM</h4>
+      <div class="supp-row"><span class="supp-key">เวลา</span><span class="supp-val">ก่อนนอน 22:00</span></div>
+      <div class="supp-row"><span class="supp-key">ปริมาณ</span><span class="supp-val">200–400mg Glycinate</span></div>
+      <div class="supp-row"><span class="supp-key">ผล</span><span class="supp-val">นอนลึกใน 3–7 วัน</span></div>
+    </div>
+  </div>
+  <div class="infobox" style="margin-top:16px">
+    <h4>⏰ Daily Timing Summary</h4>
+    12:00 Whey+Creatine · 19:00 MakeMoves D3K2 + Omega-3 · 22:00 Zinc + Mag (น้ำเปล่า ไม่ใช่นม) · <strong>Calcium ไม่จำเป็น</strong> — ได้จากนม ~1,200mg/วันแล้ว
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 6: PROGRESS & TRENDS
+══════════════════════════════════════ -->
+<div class="sec" id="progress">
+  <div class="sh">
+    <div class="sh-tag">06 · Progress & Trends</div>
+    <div class="sh-title">ติดตาม & วิเคราะห์</div>
+    <div class="sh-desc">น้ำหนัก · Pace · Macro compliance · Strength — ดู trend เพื่อรู้ว่าต้องโฟกัสตรงไหน</div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>📈 น้ำหนัก Trend (กก.)</h4>
+    <canvas id="weightChart" height="200"></canvas>
+    <div class="chart-empty" id="weightChartEmpty">ยังไม่มีข้อมูล — บันทึกน้ำหนักใน Tracker ก่อนครับ</div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>🏃 Running Pace Trend (min/km)</h4>
+    <canvas id="paceChart" height="200"></canvas>
+    <div class="chart-empty" id="paceChartEmpty">ยังไม่มีข้อมูล — บันทึกการวิ่งใน Tab วิ่ง ก่อนครับ</div>
+  </div>
+
+  <div class="chart-wrap">
+    <h4>🍽️ Macro Compliance (% ที่กินครบ)</h4>
+    <canvas id="macroChart" height="180"></canvas>
+    <div class="chart-empty" id="macroChartEmpty">ยังไม่มีข้อมูล — Log Macro ใน Tab โภชนาการก่อนครับ</div>
+  </div>
+
+  <div style="margin-top:16px">
+    <div style="font-family:'Bebas Neue';font-size:24px;color:var(--accent);margin-bottom:12px">📊 สรุปสัปดาห์นี้</div>
+    <div id="weekSummary" style="background:var(--card);border:1px solid var(--border);padding:16px;font-size:13px;color:#bbb;line-height:2">
+      กำลังคำนวณ...
+    </div>
+  </div>
+
+  <div style="margin-top:16px">
+    <button class="log-btn" onclick="analyzeWithAI()" style="background:var(--purple);color:#fff;border-color:var(--purple)">🤖 ให้ AI วิเคราะห์ Progress ของผม</button>
+    <div id="aiProgressAnalysis" style="margin-top:12px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);padding:16px;font-size:13px;color:#bbb;line-height:1.8;display:none;white-space:pre-wrap"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 7: BODY PHOTOS
+══════════════════════════════════════ -->
+<div class="sec" id="photos">
+  <div class="sh">
+    <div class="sh-tag">07 · Body Progress</div>
+    <div class="sh-title">รูปร่างรายสัปดาห์</div>
+    <div class="sh-desc">ถ่ายทุกวันอาทิตย์เช้า · แสง+ท่าเดิมทุกครั้ง · AI วิเคราะห์ให้</div>
+  </div>
+
+  <div class="infobox">
+    <h4>📸 วิธีถ่ายให้ได้ผลดีที่สุด</h4>
+    เช้า · ก่อนกิน · แสงธรรมชาติหน้าต่าง · ท่าเดิมทุกครั้ง (หน้าตรง / ข้าง / หลัง) · ชุดเดิม · ไม่ต้อง pose มาก · <strong>รูปนี้เก็บใน Browser ของคุณเท่านั้น ไม่ส่งไปไหน</strong> ยกเว้นตอนกด "ให้ AI วิเคราะห์"
+  </div>
+
+  <div class="photo-upload-area" id="photoUploadArea">
+    <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+    <div style="font-size:48px;margin-bottom:12px">📸</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:6px">อัปโหลดรูปร่าง</div>
+    <div style="font-size:13px;color:var(--muted)">กดเพื่อเลือกรูป หรือลากมาวางได้เลย</div>
+  </div>
+
+  <div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">
+    <input class="log-input" id="photoWeight" type="number" step="0.1" placeholder="น้ำหนักตอนนั้น (กก.)" style="max-width:200px">
+    <input class="log-input" id="photoNote" type="text" placeholder="โน้ต (เช่น: Week 3 หลังวิ่ง)">
+  </div>
+
+  <div id="photoGrid" class="photo-grid"></div>
+
+  <!-- Photo Modal -->
+  <div class="photo-modal" id="photoModal">
+    <img id="modalImg" src="" alt="">
+    <div class="ai-analysis-box" id="modalAnalysis" style="display:none"></div>
+    <div class="photo-modal-btns">
+      <button class="pm-btn primary" onclick="analyzeBodyPhoto()">🤖 AI วิเคราะห์ร่างกาย</button>
+      <button class="pm-btn" onclick="closePhotoModal()">✕ ปิด</button>
+      <button class="pm-btn danger" onclick="deleteCurrentPhoto()">🗑️ ลบรูปนี้</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 8: AI COACH
+══════════════════════════════════════ -->
+<div class="sec" id="ai">
+  <div class="sh">
+    <div class="sh-tag">08 · AI Coach</div>
+    <div class="sh-title">โค้ชส่วนตัว AI</div>
+    <div class="sh-desc">ถามได้ทุกอย่างเกี่ยวกับโปรแกรมของคุณ · รู้ข้อมูลทั้งหมดของคุณ</div>
+  </div>
+
+  <div class="chat-container">
+    <div class="quick-questions">
+      <button class="qq" onclick="sendQuick('วันนี้ควรกินอะไรก่อนเวทครับ')">ก่อนเวทกินอะไร?</button>
+      <button class="qq" onclick="sendQuick('Deadlift form ที่ถูกต้องคืออะไร')">Deadlift form?</button>
+      <button class="qq" onclick="sendQuick('ผมควรเพิ่มน้ำหนักยกสัปดาห์ละเท่าไหร่')">Progressive Overload?</button>
+      <button class="qq" onclick="sendQuick('ทำไมผมปวดหลังล่างหลัง Squat')">ปวดหลังหลัง Squat?</button>
+      <button class="qq" onclick="sendQuick('วิ่ง Tempo ต่างจากวิ่ง Easy ยังไง')">Tempo vs Easy run?</button>
+      <button class="qq" onclick="sendQuick('ผมควร Deload เมื่อไหร่')">เมื่อไหร่ควร Deload?</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg ai">
+        <div class="msg-bubble">สวัสดีครับ! ผมคือ AI Coach ที่รู้ข้อมูลโปรแกรมของคุณทั้งหมด 💪
+
+ถามได้เลยครับ — เรื่องเวท, โภชนาการ, การวิ่ง, Recovery, หรืออะไรก็ได้เกี่ยวกับ fitness ของคุณ</div>
+        <div class="msg-time">AI Coach พร้อมใช้งาน</div>
+      </div>
+    </div>
+    <div class="chat-typing" id="chatTyping">🤖 กำลังคิด...</div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chatInput" placeholder="ถามอะไรก็ได้ครับ..." rows="2" onkeydown="handleChatKey(event)"></textarea>
+      <button class="chat-send" id="chatSendBtn" onclick="sendChat()">ส่ง ↑</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 9: TRACKER
+══════════════════════════════════════ -->
+<div class="sec" id="tracker">
+  <div class="sh">
+    <div class="sh-tag">09 · Habit Tracker</div>
+    <div class="sh-title">Weekly Tracker</div>
+    <div class="sh-desc">เช็คทุกวัน · ดู Streak · บันทึกน้ำหนัก</div>
+  </div>
+
+  <div class="tracker-header">
+    <div class="week-label" id="weekLabel">สัปดาห์ที่ 1</div>
+    <div class="week-controls">
+      <button class="wc-btn" onclick="changeWeek(-1)">← ก่อนหน้า</button>
+      <button class="wc-btn" onclick="changeWeek(1)">ถัดไป →</button>
+      <button class="wc-btn" onclick="resetWeek()" style="border-color:var(--red);color:var(--red)">Reset</button>
+    </div>
+  </div>
+
+  <div class="streak-row" id="streakRow">
+    <div class="streak-c"><div class="streak-num" id="streakWorkout">0</div><div><div class="streak-label">วันเล่นเวท</div><div class="streak-sub">เป้า: 4 วัน</div></div></div>
+    <div class="streak-c"><div class="streak-num" id="streakRun">0</div><div><div class="streak-label">วันวิ่ง</div><div class="streak-sub">เป้า: 3+ วัน</div></div></div>
+    <div class="streak-c"><div class="streak-num" id="streakFood">0</div><div><div class="streak-label">กินครบ</div><div class="streak-sub">เป้า: 7 วัน</div></div></div>
+    <div class="streak-c"><div class="streak-num" id="streakMob">0</div><div><div class="streak-label">Mobility เช้า</div><div class="streak-sub">เป้า: 7 วัน</div></div></div>
+    <div class="streak-c"><div class="streak-num" id="streakSleep">0</div><div><div class="streak-label">นอน ≥7h</div><div class="streak-sub">เป้า: 7 วัน</div></div></div>
+  </div>
+
+  <div class="tracker-grid" id="trackerGrid"></div>
+
+  <div class="log-section">
+    <div class="log-title">บันทึกน้ำหนัก</div>
+    <div id="weightLog"></div>
+    <div class="add-log">
+      <input class="log-input" id="logDate" type="date" style="max-width:140px">
+      <input class="log-input" id="logNote" type="text" placeholder="โน้ต">
+      <input class="log-input" id="logKg" type="number" step="0.1" placeholder="น้ำหนัก (กก.)" style="max-width:150px">
+      <button class="log-btn" onclick="addWeightLog()">+ บันทึก</button>
+    </div>
+  </div>
+
+  <hr class="div">
+  <div class="log-title" style="margin-top:4px">🏋️ บันทึก Workout Session</div>
+  <div style="background:var(--card);border:1px solid var(--border);padding:18px;margin-bottom:12px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:12px">
+      <div><div class="log-title" style="margin-bottom:4px">วันที่</div><input class="log-input" id="wkDate" type="date" style="width:100%"></div>
+      <div><div class="log-title" style="margin-bottom:4px">วัน Workout</div>
+        <select class="log-input" id="wkDay" onchange="renderWorkoutExerciseList()" style="width:100%">
+          <option value="">-- เลือก --</option>
+          <option>Upper A (จันทร์)</option><option>Lower A (อังคาร)</option>
+          <option>Upper B (พฤหัส)</option><option>Lower B (ศุกร์)</option><option>Other</option>
+        </select>
+      </div>
+      <div><div class="log-title" style="margin-bottom:4px">ท่า</div><input class="log-input" id="wkExName" placeholder="เช่น Bench Press" style="width:100%"></div>
+      <div><div class="log-title" style="margin-bottom:4px">น้ำหนัก (kg)</div><input class="log-input" id="wkWeight" type="number" step="0.5" placeholder="60" style="width:100%"></div>
+      <div><div class="log-title" style="margin-bottom:4px">Reps</div><input class="log-input" id="wkReps" type="number" placeholder="8" style="width:100%"></div>
+      <div><div class="log-title" style="margin-bottom:4px">Sets</div><input class="log-input" id="wkSets" type="number" value="3" style="width:100%"></div>
+      <div><div class="log-title" style="margin-bottom:4px">พัก</div><input class="log-input" id="wkRest" placeholder="2 min" style="width:100%"></div>
+      <div><div class="log-title" style="margin-bottom:4px">โน้ต</div><input class="log-input" id="wkNote" placeholder="form / ความรู้สึก" style="width:100%"></div>
+    </div>
+    <div id="wkExSuggestions" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
+    <button class="log-btn" onclick="addWkSet()" style="width:100%;text-align:center">+ บันทึก Set</button>
+  </div>
+  <div id="wkHistory"></div>
+
+</div>
+
+<!-- KEY MODAL -->
+<div id="keyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);padding:28px;max-width:480px;width:100%">
+    <div style="font-family:'Bebas Neue';font-size:28px;color:var(--accent);margin-bottom:6px">⚙️ ตั้งค่า Gemini API Key</div>
+    <div style="font-size:13px;color:var(--muted2);margin-bottom:18px;line-height:1.7">
+      AI ทุกตัวใน Dashboard ใช้ Google Gemini (ฟรี)<br>
+      สมัครที่ <strong style="color:var(--accent2)">aistudio.google.com</strong> → Get API Key → วางด้านล่าง
+    </div>
+    <input class="log-input" id="apiKeyInput" type="password" placeholder="AIzaSy..." style="width:100%;margin-bottom:12px">
+    <div style="display:flex;gap:8px">
+      <button class="log-btn" onclick="saveApiKey()" style="flex:1">💾 บันทึก Key</button>
+      <button class="log-btn" onclick="closeKeyModal()" style="background:var(--surface);color:var(--white);border:1px solid var(--border2)">ปิด</button>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:12px">🔒 Key เก็บใน Browser ของคุณเท่านั้น ไม่ส่งออก</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 10: RECOVERY
+══════════════════════════════════════ -->
+<div class="sec" id="recovery">
+  <div class="sh">
+    <div class="sh-tag">10 · Recovery System</div>
+    <div class="sh-title">ฟื้นตัวให้เร็ว</div>
+    <div class="sh-desc">กล้ามสร้างตอนพัก ไม่ใช่ตอนเล่น</div>
+  </div>
+  <div class="rec-grid">
+    <div class="rec"><div class="rec-icon">😴</div><h4>การนอน</h4><ul><li>นอน 23:30–00:00 ตื่น 08:30 (8+ ชม.)</li><li>Mag+Zinc ก่อนนอน 1 ชม.</li><li>ห้องมืด 24–26°C</li><li>วางโทรศัพท์ 30 นาทีก่อนนอน</li></ul></div>
+    <div class="rec"><div class="rec-icon">💧</div><h4>น้ำ</h4><ul><li>≥3.5 ลิตร/วัน</li><li>ตื่นนอน 500ml ทันที</li><li>ระหว่างเวท 500–700ml</li><li>วันฟุตบอล +1 ลิตร</li></ul></div>
+    <div class="rec"><div class="rec-icon">🔄</div><h4>Active Recovery</h4><ul><li>พุธ: Foam roll + Mobility 20 นาที</li><li>อาทิตย์: Stretch เบา 15 นาที</li><li>WFH: ลุกเดิน 5 นาทีทุก 1 ชม.</li><li>Hip flexor stretch ทุกวัน</li></ul></div>
+    <div class="rec"><div class="rec-icon">📅</div><h4>Deload Week</h4><ul><li>ทุก 4–5 สัปดาห์: ลด Volume 40%</li><li>วางแผน: สัปดาห์ 5 และ 10</li><li>สัญญาณ: ปวดข้อต่อ หลับยาก</li><li>Deload = ฟื้นแล้วแข็งกว่าเดิม</li></ul></div>
+    <div class="rec"><div class="rec-icon">🍽️</div><h4>Nutrition Recovery</h4><ul><li>Post-WO: Whey + Creatine + กล้วย</li><li>คาร์บหลังเวท = เติม Glycogen</li><li>ก่อนนอน: Casein (นม/โยเกิร์ต)</li><li>วันฟุตบอล: กิน Carb 18:00</li></ul></div>
+    <div class="rec"><div class="rec-icon">📊</div><h4>สัญญาณ Recovery</h4><ul><li>✅ ดี: อยากเวท · Mood ดี · น้ำหนักยกเพิ่ม</li><li>❌ แย่: ปวดข้อ · หลับยาก · อ่อนเพลีย 3+ วัน</li><li>❌ แย่: น้ำหนักยกน้อยลงทุกสัปดาห์</li></ul></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 11: SCHEDULE
+══════════════════════════════════════ -->
+<div class="sec" id="schedule">
+  <div class="sh">
+    <div class="sh-tag">11 · Daily Schedule</div>
+    <div class="sh-title">ตารางชีวิต</div>
+    <div class="sh-desc">ตื่น 08:30 · Mobility 08:30 · เวท 10:30 · นอน 00:00</div>
+  </div>
+  <div class="alarm-grid">
+    <div class="alarm-item" style="border-left-color:var(--accent2)"><div class="alarm-t" style="color:var(--accent2)">08:30</div><div class="alarm-act">ตื่น + Morning Mobility</div><div class="alarm-note">10 นาที บนเสื่อ · ก่อนกินข้าว</div></div>
+    <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">09:00</div><div class="alarm-act">Smoothie + ไข่ต้ม 2 ฟอง</div><div class="alarm-note">ปั่น 65 วิ · รวม 790 kcal</div></div>
+    <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">10:00</div><div class="alarm-act">Pre-WO — ชาเขียว + กล้วย</div><div class="alarm-note">แทนกาแฟ · 30 นาทีก่อนเวท</div></div>
+    <div class="alarm-item" style="border-left-color:var(--orange)"><div class="alarm-t" style="color:var(--orange)">10:30</div><div class="alarm-act">🏋️ เวท + Core Finisher</div><div class="alarm-note">60–90 นาที ตามโปรแกรม</div></div>
+    <div class="alarm-item" style="border-left-color:var(--green)"><div class="alarm-t" style="color:var(--green)">12:00</div><div class="alarm-act">Post-WO Shake + Creatine</div><div class="alarm-note">ภายใน 30 นาทีหลังเวท</div></div>
+    <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">13:30</div><div class="alarm-act">Lunch — ข้าว + โปรตีน</div><div class="alarm-note">690 kcal · เน้นนุ่ม เคี้ยวง่าย</div></div>
+    <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">16:00</div><div class="alarm-act">Mega Smoothie บ่าย</div><div class="alarm-note">620 kcal · ก่อนวิ่ง 45 นาที</div></div>
+    <div class="alarm-item" style="border-left-color:var(--purple)"><div class="alarm-t" style="color:var(--purple)">16:30</div><div class="alarm-act">🏃 วิ่งเย็น (จันทร์/พุธ Tempo)</div><div class="alarm-note">Zone 2 หรือ Tempo ตาม Phase</div></div>
+    <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">19:00</div><div class="alarm-act">Dinner + D3K2 + Omega-3</div><div class="alarm-note">610 kcal · กิน Supps ด้วย</div></div>
+    <div class="alarm-item" style="border-left-color:var(--orange)"><div class="alarm-t" style="color:var(--orange)">20:00</div><div class="alarm-act">⚽ ฟุตบอล (พฤหัสเท่านั้น)</div><div class="alarm-note">2 ชม. Cardio + Agility</div></div>
+    <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">22:00</div><div class="alarm-act">Pre-bed + Zinc + Mag</div><div class="alarm-note">นม + ไข่ · Supp กับน้ำเปล่า</div></div>
+    <div class="alarm-item" style="border-left-color:var(--muted)"><div class="alarm-t" style="color:var(--muted)">23:30</div><div class="alarm-act">วางโทรศัพท์ → เตรียมนอน</div><div class="alarm-note">Blue light ปิด 30 นาทีก่อนนอน</div></div>
+    <div class="alarm-item" style="border-left-color:var(--muted)"><div class="alarm-t" style="color:var(--muted)">00:00</div><div class="alarm-act">นอน</div><div class="alarm-note">เป้า 8+ ชม. → ตื่น 08:30</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 12: FOOD CALCULATOR
+══════════════════════════════════════ -->
+<div class="sec" id="foodcalc">
+  <div class="sh">
+    <div class="sh-tag">12 · Food Calculator</div>
+    <div class="sh-title">คำนวณ Macro อาหาร</div>
+    <div class="sh-desc">พิมพ์ชื่ออาหาร → เลือกปริมาณ → เพิ่มเข้ามื้อ → ระบบรวม Macro ให้อัตโนมัติ</div>
+  </div>
+
+  <div class="infobox blue">
+    <h4>💡 วิธีใช้</h4>
+    พิมพ์ชื่ออาหาร เช่น "ข้าวหอมมะลิ" หรือ "Rolled Oats" → เลือกจาก Suggestion หรือกด Search → ใส่ปริมาณ (กรัม) → กด + เพิ่มเข้ามื้อ · รองรับทั้งอาหารไทย อาหาร Gym และ อาหารทั่วไป · ถ้าไม่มีใน Database จะใช้ AI คำนวณให้
+  </div>
+
+  <!-- SEARCH ROW -->
+  <div class="fc-search-row">
+    <input class="fc-input" id="fcFoodInput" placeholder="พิมพ์ชื่ออาหาร เช่น ข้าวสวย, อกไก่, Whey Protein..." oninput="fcSuggest()" onkeydown="if(event.key==='Enter')fcSearch()">
+    <input class="fc-amt" id="fcAmount" type="number" value="100" min="1" placeholder="กรัม">
+    <select class="fc-amt" id="fcUnit" style="width:90px" onchange="updateAmtLabel()">
+      <option value="g">กรัม</option>
+      <option value="ml">มล.</option>
+      <option value="piece">ชิ้น</option>
+      <option value="tbsp">ช้อนโต๊ะ</option>
+      <option value="cup">ถ้วย</option>
+    </select>
+    <button class="fc-btn" id="fcSearchBtn" onclick="fcSearch()">🔍 Search</button>
+    <button class="fc-btn secondary" onclick="fcClear()">Clear</button>
+    <label class="fc-btn secondary" style="cursor:pointer;display:flex;align-items:center;gap:6px">
+      📸 ถ่ายรูปอาหาร
+      <input type="file" accept="image/*" capture="environment" onchange="handleFoodPhoto(event)" style="display:none">
+    </label>
+  </div>
+
+  <!-- SUGGESTIONS DROPDOWN -->
+  <div class="fc-suggestions" id="fcSuggestions"></div>
+
+  <!-- RESULT CARD -->
+  <div class="fc-result" id="fcResult">
+    <div class="fc-food-name" id="fcFoodName">—</div>
+    <div class="fc-macros" id="fcResultMacros"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
+      <select class="fc-amt" id="fcMealTarget" style="width:auto;padding:8px 12px">
+        <option value="0">มื้อ 1 — Smoothie เช้า (09:00)</option>
+        <option value="1">Pre-WO (10:00)</option>
+        <option value="2">Post-WO Shake (12:00)</option>
+        <option value="3">มื้อ 4 — Lunch (13:30)</option>
+        <option value="4">มื้อ 5 — Smoothie บ่าย (16:00)</option>
+        <option value="5">มื้อ 6 — Dinner (19:00)</option>
+        <option value="6">Pre-bed (22:00)</option>
+        <option value="7">+ เพิ่มมื้อใหม่</option>
+      </select>
+      <button class="fc-add-btn" onclick="fcAddToMeal()">+ เพิ่มเข้ามื้อ</button>
+    </div>
+  </div>
+
+  <div class="fc-status" id="fcStatus"></div>
+
+  <!-- MEAL SECTIONS -->
+  <div id="fcMealContainer"></div>
+
+  <!-- DAILY TOTAL -->
+  <div class="daily-total-bar" id="fcDailyTotal" style="display:none">
+    <h4>📊 รวม Macro วันนี้</h4>
+    <div class="dt-row">
+      <div class="dt-label" style="color:var(--green)">Protein</div>
+      <div class="dt-bar-wrap"><div class="dt-bar-fill" id="dtBarP" style="background:var(--green);width:0%"></div></div>
+      <div class="dt-val" id="dtValP" style="color:var(--green)">0 / 228g</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-label" style="color:#ffd700">Carbs</div>
+      <div class="dt-bar-wrap"><div class="dt-bar-fill" id="dtBarC" style="background:#ffd700;width:0%"></div></div>
+      <div class="dt-val" id="dtValC" style="color:#ffd700">0 / 419g</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-label" style="color:var(--orange)">Fat</div>
+      <div class="dt-bar-wrap"><div class="dt-bar-fill" id="dtBarF" style="background:var(--orange);width:0%"></div></div>
+      <div class="dt-val" id="dtValF" style="color:var(--orange)">0 / 88g</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-label" style="color:var(--accent)">Calories</div>
+      <div class="dt-bar-wrap"><div class="dt-bar-fill" id="dtBarK" style="background:var(--accent);width:0%"></div></div>
+      <div class="dt-val" id="dtValK" style="color:var(--accent)">0 / 3200</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="fc-btn secondary" onclick="fcSaveToMacroLog()" style="font-size:11px">💾 บันทึกเข้า Macro Log</button>
+      <button class="fc-btn secondary" onclick="fcResetDay()" style="font-size:11px;border-color:var(--red);color:var(--red)">🗑️ ล้างข้อมูลวันนี้</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const DB = {
+  get: (k, def=[]) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch(e) { return def; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) { console.warn('Storage full'); } }
+};
+
+// ═══════════════════════════════════════════════════════
+// GEMINI API HELPER
+// ═══════════════════════════════════════════════════════
+const GEMINI = {
+  getKey: () => localStorage.getItem('geminiKey') || '',
+  setKey: (k) => localStorage.setItem('geminiKey', k),
+  endpoint(model) { model = model || 'gemini-2.0-flash'; return 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + GEMINI.getKey(); },
+
+  async call(prompt, systemPrompt='', model='gemini-2.0-flash') {
+    if (!GEMINI.getKey()) { showKeyModal(); throw new Error('No API key'); }
+    const body = {
+      system_instruction: systemPrompt ? { parts:[{text:systemPrompt}] } : undefined,
+      contents: [{ role:'user', parts:[{text:prompt}] }],
+      generationConfig: { maxOutputTokens:1000, temperature:0.7 }
+    };
+    if (!systemPrompt) delete body.system_instruction;
+    const r = await fetch(GEMINI.endpoint(model), {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) {
+      const err = await r.json();
+      throw new Error(err.error?.message || 'Gemini API error');
+    }
+    const d = await r.json();
+    return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  },
+
+  async vision(prompt, base64img, mimeType='image/jpeg', model='gemini-2.0-flash') {
+    if (!GEMINI.getKey()) { showKeyModal(); throw new Error('No API key'); }
+    const body = {
+      contents: [{ role:'user', parts:[
+        { inline_data: { mime_type: mimeType, data: base64img } },
+        { text: prompt }
+      ]}],
+      generationConfig: { maxOutputTokens:1000, temperature:0.4 }
+    };
+    const r = await fetch(GEMINI.endpoint(model), {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) {
+      const err = await r.json();
+      throw new Error(err.error?.message || 'Gemini Vision error');
+    }
+    const d = await r.json();
+    return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  },
+
+  async chat(messages, systemPrompt='', model='gemini-2.0-flash') {
+    if (!GEMINI.getKey()) { showKeyModal(); throw new Error('No API key'); }
+    const contents = messages.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+    const body = {
+      system_instruction: systemPrompt ? { parts:[{text:systemPrompt}] } : undefined,
+      contents,
+      generationConfig: { maxOutputTokens:1200, temperature:0.7 }
+    };
+    if (!systemPrompt) delete body.system_instruction;
+    const r = await fetch(GEMINI.endpoint(model), {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) {
+      const err = await r.json();
+      throw new Error(err.error?.message || 'Gemini chat error');
+    }
+    const d = await r.json();
+    return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
+};
+
+
+// ═══════════════════════════════════════════════════════
+// SETTINGS MODAL (Gemini API Key)
+// ═══════════════════════════════════════════════════════
+function showKeyModal() {
+  document.getElementById('keyModal').style.display = 'flex';
+}
+function closeKeyModal() {
+  document.getElementById('keyModal').style.display = 'none';
+}
+function saveApiKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if (!k) return;
+  GEMINI.setKey(k);
+  document.getElementById('apiKeyInput').value = '';
+  closeKeyModal();
+  alert('✅ บันทึก API Key แล้วครับ!');
+}
+
+// ═══════════════════════════════════════════════════════
+// TAB NAVIGATION
+// ═══════════════════════════════════════════════════════
+function go(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'progress') { updateCharts(); updateWeekSummary(); }
+}
+
+function tog(h) { h.parentElement.classList.toggle('open'); }
+function togM(h) { h.parentElement.classList.toggle('open'); }
+
+// ═══════════════════════════════════════════════════════
+// MORNING MOBILITY
+// ═══════════════════════════════════════════════════════
+const MOBILITY = [
+  {name:'Cat-Cow',desc:'10 ครั้ง · คุกเข่า หายใจพร้อมเคลื่อน',reps:10,hold:0},
+  {name:'Hip Circles',desc:'10 รอบ/ข้าง · ยืนขาเดียว',reps:10,hold:0},
+  {name:"World's Greatest Stretch",desc:'5 ครั้ง/ข้าง · ลันจ์ + หมุน',reps:5,hold:0},
+  {name:'Thoracic Rotation',desc:'10 ข้าง · นอนตะแคง',reps:10,hold:0},
+  {name:'Hip Flexor Stretch',desc:'ค้างไว้ 30 วิ/ข้าง',reps:1,hold:30},
+  {name:'Hamstring Stretch',desc:'ค้างไว้ 30 วิ/ข้าง',reps:1,hold:30},
+  {name:'Shoulder CARs',desc:'5 รอบ/ข้าง · หมุนช้าๆ',reps:5,hold:0},
+  {name:'Ankle Circles',desc:'10 รอบ/ข้าง',reps:10,hold:0},
+  {name:'Squat to Stand',desc:'10 ครั้ง · ช้า ยืดขา',reps:10,hold:0},
+  {name:'Spiderman Stretch',desc:'5 ครั้ง/ข้าง',reps:5,hold:0},
+];
+let mobDone = new Set();
+function renderMob() {
+  const g = document.getElementById('mobGrid');
+  if (!g) return;
+  g.innerHTML = MOBILITY.map((m,i) => `
+    <div class="mob-item ${mobDone.has(i)?'done':''}" onclick="toggleMob(${i})">
+      <div class="mob-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="mob-info"><h5>${m.name}</h5><p>${m.desc}</p></div>
+      <div class="mob-check">✓</div>
+    </div>`).join('');
+}
+function toggleMob(i) { mobDone.has(i)?mobDone.delete(i):mobDone.add(i); renderMob(); }
+function resetMob() { mobDone.clear(); renderMob(); }
+
+// TIMER
+let timerInterval=null,timerSeconds=30,timerRunning=false;
+function setTimer(s){if(timerRunning)return;timerSeconds=s;updateTimerDisplay();}
+function updateTimerDisplay(){const el=document.getElementById('timerDisplay');if(el)el.textContent=`00:${String(timerSeconds).padStart(2,'0')}`;}
+function toggleTimer(){
+  const btn=document.getElementById('timerStartBtn');
+  if(!btn)return;
+  if(timerRunning){clearInterval(timerInterval);timerRunning=false;btn.textContent='▶ Start';}
+  else{
+    timerRunning=true;btn.textContent='⏸ Pause';
+    timerInterval=setInterval(()=>{
+      timerSeconds--;
+      if(timerSeconds<=0){
+        clearInterval(timerInterval);timerRunning=false;btn.textContent='▶ Start';timerSeconds=30;
+        const lbl=document.getElementById('timerLabel');if(lbl)lbl.textContent='✅ เสร็จ! ทำท่าถัดไป';
+      }
+      updateTimerDisplay();
+    },1000);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// RUNNING LOG
+// ═══════════════════════════════════════════════════════
+function addRunLog(){
+  const d=document.getElementById('runDate'),dist=parseFloat(document.getElementById('runDist').value),time=document.getElementById('runTime').value,pace=document.getElementById('runPace').value,note=document.getElementById('runNote').value;
+  if(!d||!d.value||isNaN(dist))return;
+  const logs=DB.get('runLogs');logs.push({date:d.value,dist,time,pace,note});DB.set('runLogs',logs);renderRunLogs();
+  document.getElementById('runDist').value='';document.getElementById('runTime').value='';document.getElementById('runPace').value='';document.getElementById('runNote').value='';
+}
+function renderRunLogs(){
+  const logs=DB.get('runLogs'),el=document.getElementById('runLogList');if(!el)return;
+  if(!logs.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:10px 0">ยังไม่มีบันทึก</div>';return;}
+  el.innerHTML=logs.slice().reverse().map((l,i)=>`
+    <div class="run-log-entry">
+      <div style="font-family:'JetBrains Mono';font-size:11px;color:var(--accent2)">${l.date}</div>
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:var(--accent)">${l.dist}km</div>
+      <div style="font-size:12px;color:#bbb">${l.time||'—'}</div>
+      <div style="font-family:'JetBrains Mono';font-size:11px;color:var(--purple)">${l.pace||'—'}</div>
+      <div style="font-size:12px;color:var(--muted2)">${l.note||'—'}</div>
+      <div style="color:var(--muted);cursor:pointer;font-size:12px" onclick="delRunLog(${logs.length-1-i})">✕</div>
+    </div>`).join('');
+}
+function delRunLog(i){const logs=DB.get('runLogs');logs.splice(i,1);DB.set('runLogs',logs);renderRunLogs();}
+
+// ═══════════════════════════════════════════════════════
+// WEIGHT LOG
+// ═══════════════════════════════════════════════════════
+function addWeightLog(){
+  const date=document.getElementById('logDate').value,note=document.getElementById('logNote').value,kg=parseFloat(document.getElementById('logKg').value);
+  if(!date||isNaN(kg))return;
+  const logs=DB.get('weightLogs');logs.push({date,note,kg});DB.set('weightLogs',logs);renderWeightLogs();
+  document.getElementById('logNote').value='';document.getElementById('logKg').value='';
+}
+function delWeightLog(i){const logs=DB.get('weightLogs');logs.splice(logs.length-1-i,1);DB.set('weightLogs',logs);renderWeightLogs();}
+function renderWeightLogs(){
+  const logs=DB.get('weightLogs'),el=document.getElementById('weightLog');if(!el)return;
+  if(!logs.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:10px 0">ยังไม่มีบันทึก</div>';return;}
+  el.innerHTML=logs.slice().reverse().map((l,i)=>`
+    <div class="log-entry">
+      <div class="log-date">${l.date}</div><div class="log-desc">${l.note||'—'}</div>
+      <div class="log-weight">${l.kg} กก.</div>
+      <div class="log-del" onclick="delWeightLog(${i})">✕</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// MACRO LOG
+// ═══════════════════════════════════════════════════════
+const MACRO_TARGETS={p:228,c:419,f:88,k:3200};
+function addMacroLog(){
+  const date=document.getElementById('macroDate').value;if(!date)return;
+  const p=parseFloat(document.getElementById('macroP').value)||0,c=parseFloat(document.getElementById('macroC').value)||0,f=parseFloat(document.getElementById('macroF').value)||0,k=parseFloat(document.getElementById('macroK').value)||0;
+  const logs=DB.get('macroLogs');const ex=logs.findIndex(l=>l.date===date);const entry={date,p,c,f,k};
+  if(ex>=0)logs[ex]=entry;else logs.push(entry);DB.set('macroLogs',logs);renderMacroLogs();
+  ['macroP','macroC','macroF','macroK'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+}
+function pct(val,target){return Math.min(100,Math.round(val/target*100));}
+function renderMacroLogs(){
+  const logs=DB.get('macroLogs'),el=document.getElementById('macroLogList');if(!el)return;
+  if(!logs.length){el.innerHTML='';return;}
+  el.innerHTML=logs.slice().reverse().slice(0,14).map(l=>`
+    <div class="macro-log-entry">
+      <div class="log-date">${l.date}</div>
+      <div class="ml-p"><div style="color:var(--green);font-weight:600">${l.p}g</div><div class="macro-pct">${pct(l.p,MACRO_TARGETS.p)}%</div><div class="macro-bar"><div class="macro-bar-fill" style="width:${pct(l.p,MACRO_TARGETS.p)}%"></div></div></div>
+      <div class="ml-c"><div style="color:#ffd700;font-weight:600">${l.c}g</div><div class="macro-pct">${pct(l.c,MACRO_TARGETS.c)}%</div><div class="macro-bar"><div class="macro-bar-fill" style="width:${pct(l.c,MACRO_TARGETS.c)}%;background:#ffd700"></div></div></div>
+      <div class="ml-f"><div style="color:var(--orange);font-weight:600">${l.f}g</div><div class="macro-pct">${pct(l.f,MACRO_TARGETS.f)}%</div><div class="macro-bar"><div class="macro-bar-fill" style="width:${pct(l.f,MACRO_TARGETS.f)}%;background:var(--orange)"></div></div></div>
+      <div class="ml-k"><div style="color:var(--accent);font-weight:600">${l.k}</div><div class="macro-pct">${pct(l.k,MACRO_TARGETS.k)}%</div><div class="macro-bar"><div class="macro-bar-fill" style="width:${pct(l.k,MACRO_TARGETS.k)}%"></div></div></div>
+      <div style="font-size:20px;text-align:center">${l.p>=MACRO_TARGETS.p*0.9&&l.k>=MACRO_TARGETS.k*0.9?'✅':'⚠️'}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// WORKOUT LOG (NEW)
+// ═══════════════════════════════════════════════════════
+const WORKOUT_DAYS = ['Upper A (จันทร์)','Lower A (อังคาร)','Upper B (พฤหัส)','Lower B (ศุกร์)','Other'];
+const COMMON_EXERCISES = {
+  'Upper A (จันทร์)': ['Bench Press','Bent-over Row','Incline DB Press','Cable Row','OHP','Face Pull','EZ Curl','Tricep Pushdown'],
+  'Upper B (พฤหัส)': ['OHP','Pull-ups','Arnold Press','DB Row','Lateral Raise','Rear Delt Fly','Hammer Curl','Overhead Tricep Ext'],
+  'Lower A (อังคาร)': ['Back Squat','Romanian Deadlift','Leg Press','Walking Lunges','Leg Extension','Leg Curl','Calf Raise'],
+  'Lower B (ศุกร์)': ['Deadlift','Bulgarian Split Squat','Hip Thrust','Leg Press','Leg Curl','Seated Calf Raise'],
+  'Other': [],
+};
+
+let wkLog = { day:'', date:'', exercises:[] };
+
+function renderWorkoutExerciseList() {
+  const day = document.getElementById('wkDay').value;
+  const exList = document.getElementById('wkExList');if(!exList)return;
+  const exercises = COMMON_EXERCISES[day] || [];
+  document.getElementById('wkExSuggestions').innerHTML = exercises.map(ex=>`<span class="wk-ex-chip" onclick="setWkEx('${ex}')">${ex}</span>`).join('');
+}
+function setWkEx(name){ const el=document.getElementById('wkExName');if(el)el.value=name; }
+
+function addWkSet(){
+  const day=document.getElementById('wkDay')?.value;
+  const date=document.getElementById('wkDate')?.value;
+  const exName=document.getElementById('wkExName')?.value?.trim();
+  const weight=parseFloat(document.getElementById('wkWeight')?.value)||0;
+  const reps=parseInt(document.getElementById('wkReps')?.value)||0;
+  const sets=parseInt(document.getElementById('wkSets')?.value)||1;
+  const rest=document.getElementById('wkRest')?.value||'';
+  const note=document.getElementById('wkNote')?.value||'';
+  if(!day||!date||!exName)return;
+  
+  const logs=DB.get('workoutLogs',[]);
+  const existing=logs.findIndex(l=>l.date===date&&l.day===day);
+  const setEntry={exercise:exName,weight,reps,sets,rest,note};
+  if(existing>=0){
+    logs[existing].entries.push(setEntry);
+  } else {
+    logs.push({date,day,entries:[setEntry]});
+  }
+  DB.set('workoutLogs',logs);
+  renderWorkoutHistory();
+  ['wkExName','wkWeight','wkReps','wkSets','wkRest','wkNote'].forEach(id=>{const el=document.getElementById(id);if(el&&id!=='wkSets')el.value='';});
+  if(document.getElementById('wkSets'))document.getElementById('wkSets').value='3';
+  showToast('✅ บันทึก Set แล้ว');
+}
+
+function renderWorkoutHistory(){
+  const el=document.getElementById('wkHistory');if(!el)return;
+  const logs=DB.get('workoutLogs',[]);
+  if(!logs.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:12px 0">ยังไม่มีบันทึก — เริ่มเพิ่มท่าด้านบนได้เลยครับ</div>';return;}
+  el.innerHTML=logs.slice().reverse().slice(0,10).map((log,i)=>{
+    const grouped={};
+    log.entries.forEach(e=>{if(!grouped[e.exercise])grouped[e.exercise]=[];grouped[e.exercise].push(e);});
+    return `<div class="wk-session">
+      <div class="wk-session-head">
+        <span style="font-family:'Bebas Neue';font-size:18px;color:var(--accent)">${log.day}</span>
+        <span style="font-family:'JetBrains Mono';font-size:10px;color:var(--muted)">${log.date}</span>
+        <span style="margin-left:auto;color:var(--muted);cursor:pointer;font-size:12px" onclick="delWorkoutLog(${logs.length-1-i})">🗑️</span>
+      </div>
+      ${Object.entries(grouped).map(([ex,sets])=>`
+        <div class="wk-exercise-row">
+          <div class="wk-ex-title">${ex}</div>
+          <div class="wk-sets-row">${sets.map(s=>`<span class="wk-set-chip">${s.sets}×${s.reps} @ ${s.weight}kg</span>`).join('')}</div>
+          ${sets[0].note?`<div style="font-size:11px;color:var(--muted2);margin-top:3px">📝 ${sets[0].note}</div>`:''}
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+function delWorkoutLog(i){const logs=DB.get('workoutLogs',[]);logs.splice(i,1);DB.set('workoutLogs',logs);renderWorkoutHistory();}
+
+// ═══════════════════════════════════════════════════════
+// TRACKER
+// ═══════════════════════════════════════════════════════
+const DAYS=['จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์','อาทิตย์'];
+const DAY_TYPES=['Upper A','Lower A','Recovery+Tempo','Upper B+⚽','Lower B','Long Run','Rest'];
+const HABITS=[
+  {key:'workout',label:'🏋️ เวท'},{key:'run',label:'🏃 วิ่ง'},{key:'mob',label:'🌅 Mobility'},
+  {key:'food',label:'🍽️ กินครบ'},{key:'sleep',label:'😴 นอน≥7h'},{key:'water',label:'💧 น้ำ 3.5L'},{key:'supp',label:'💊 Supplement'},
+];
+let currentWeek=1;
+let trackerData=DB.get('trackerData3',{});
+function getKey(w,d,h){return `w${w}_d${d}_${h}`;}
+function renderTracker(){
+  const el=document.getElementById('weekLabel');if(el)el.textContent=`สัปดาห์ที่ ${currentWeek}`;
+  const grid=document.getElementById('trackerGrid');if(!grid)return;
+  grid.innerHTML='';
+  const todayDay=(new Date().getDay()+6)%7;
+  DAYS.forEach((d,di)=>{
+    const div=document.createElement('div');
+    div.className='tday'+(di===todayDay&&currentWeek===1?' today':'');
+    let html=`<div class="tday-name">${d}</div><div class="tday-date" style="font-size:11px;color:var(--muted2)">${DAY_TYPES[di]}</div>`;
+    HABITS.forEach(h=>{
+      const k=getKey(currentWeek,di,h.key);const checked=trackerData[k]?'checked':'';
+      html+=`<div class="habit-item" onclick="toggleHabit(${currentWeek},${di},'${h.key}')"><div class="habit-cb ${checked}" id="cb_${k}"></div><span class="habit-txt">${h.label}</span></div>`;
+    });
+    div.innerHTML=html;grid.appendChild(div);
+  });
+  updateStreaks();
+}
+function toggleHabit(w,d,h){
+  const k=getKey(w,d,h);trackerData[k]=!trackerData[k];
+  const cb=document.getElementById('cb_'+k);if(cb)cb.className='habit-cb'+(trackerData[k]?' checked':'');
+  DB.set('trackerData3',trackerData);updateStreaks();
+}
+function updateStreaks(){
+  const counts={workout:0,run:0,food:0,mob:0,sleep:0};
+  for(let d=0;d<7;d++)Object.keys(counts).forEach(h=>{if(trackerData[getKey(currentWeek,d,h)])counts[h]++;});
+  ['Workout','Run','Food','Mob','Sleep'].forEach(k=>{const el=document.getElementById('streak'+k);if(el)el.textContent=counts[k.toLowerCase()];});
+}
+function changeWeek(d){currentWeek=Math.max(1,Math.min(16,currentWeek+d));renderTracker();}
+function resetWeek(){
+  if(!confirm(`Reset สัปดาห์ที่ ${currentWeek}?`))return;
+  for(let d=0;d<7;d++)HABITS.forEach(h=>{delete trackerData[getKey(currentWeek,d,h.key)];});
+  DB.set('trackerData3',trackerData);renderTracker();
+}
+
+// ═══════════════════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════════════════
+function drawLineChart(canvasId,emptyId,labels,data,color,unit=''){
+  const canvas=document.getElementById(canvasId),empty=document.getElementById(emptyId);if(!canvas)return;
+  if(!data.length||data.length<2){canvas.style.display='none';if(empty)empty.style.display='block';return;}
+  canvas.style.display='block';if(empty)empty.style.display='none';
+  canvas.width=canvas.offsetWidth*2;canvas.height=400;
+  const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height,pad={t:30,r:20,b:50,l:50};
+  const chartW=W-pad.l-pad.r,chartH=H-pad.t-pad.b;ctx.clearRect(0,0,W,H);
+  const min=Math.min(...data)*0.99,max=Math.max(...data)*1.01,range=max-min||1;
+  const toX=i=>pad.l+(i/(data.length-1))*chartW,toY=v=>pad.t+(1-(v-min)/range)*chartH;
+  ctx.strokeStyle='#222';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=pad.t+(i/4)*chartH;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+chartW,y);ctx.stroke();ctx.fillStyle='#666';ctx.font='20px JetBrains Mono';ctx.fillText((max-(i/4)*range).toFixed(1)+unit,5,y+7);}
+  ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineJoin='round';ctx.beginPath();
+  data.forEach((v,i)=>{i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v));});ctx.stroke();
+  ctx.fillStyle=color+'18';ctx.beginPath();data.forEach((v,i)=>{i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v));});
+  ctx.lineTo(toX(data.length-1),pad.t+chartH);ctx.lineTo(toX(0),pad.t+chartH);ctx.closePath();ctx.fill();
+  data.forEach((v,i)=>{
+    ctx.fillStyle=color;ctx.beginPath();ctx.arc(toX(i),toY(v),6,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='bold 20px JetBrains Mono';ctx.fillText(v.toFixed(1),toX(i)-14,toY(v)-14);
+    ctx.fillStyle='#666';ctx.font='18px JetBrains Mono';ctx.fillText(labels[i]?labels[i].slice(5):'',toX(i)-16,H-10);
+  });
+}
+function drawBarChart(canvasId,emptyId,labels,data,color){
+  const canvas=document.getElementById(canvasId),empty=document.getElementById(emptyId);if(!canvas)return;
+  if(!data.length){canvas.style.display='none';if(empty)empty.style.display='block';return;}
+  canvas.style.display='block';if(empty)empty.style.display='none';
+  canvas.width=canvas.offsetWidth*2;canvas.height=360;
+  const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height,pad={t:20,r:20,b:50,l:50};
+  const chartW=W-pad.l-pad.r,chartH=H-pad.t-pad.b;ctx.clearRect(0,0,W,H);
+  const gap=chartW/data.length,barW=gap*0.6;
+  data.forEach((v,i)=>{
+    const x=pad.l+i*gap+gap*0.2,barH=(v/100)*chartH,y=pad.t+chartH-barH;
+    ctx.fillStyle=v>=90?'#00e676':v>=70?'#e8ff00':'#ff6b35';ctx.fillRect(x,y,barW,barH);
+    ctx.fillStyle='#fff';ctx.font='bold 22px JetBrains Mono';ctx.fillText(v+'%',x,y-8);
+    ctx.fillStyle='#666';ctx.font='18px JetBrains Mono';ctx.fillText(labels[i]?labels[i].slice(5):'',x-4,H-10);
+  });
+}
+function updateCharts(){
+  const wl=DB.get('weightLogs');
+  if(wl.length){const sorted=[...wl].sort((a,b)=>a.date.localeCompare(b.date)).slice(-12);drawLineChart('weightChart','weightChartEmpty',sorted.map(l=>l.date),sorted.map(l=>l.kg),'#e8ff00','kg');}
+  else{const c=document.getElementById('weightChart');if(c)c.style.display='none';}
+  const rl=DB.get('runLogs');
+  if(rl.length){const sorted=[...rl].filter(l=>l.pace).sort((a,b)=>a.date.localeCompare(b.date)).slice(-10);
+    if(sorted.length>=2){const paces=sorted.map(l=>{const p=l.pace.split(':');return parseFloat(p[0])+(parseFloat(p[1]||0)/60);});drawLineChart('paceChart','paceChartEmpty',sorted.map(l=>l.date),paces,'#d500f9','');}}
+  const ml=DB.get('macroLogs');
+  if(ml.length){const sorted=[...ml].sort((a,b)=>a.date.localeCompare(b.date)).slice(-10);
+    const comp=sorted.map(l=>Math.round((pct(l.p,MACRO_TARGETS.p)+pct(l.k,MACRO_TARGETS.k))/2));
+    drawBarChart('macroChart','macroChartEmpty',sorted.map(l=>l.date),comp,'#00e5ff');}
+}
+function updateWeekSummary(){
+  const wl=DB.get('weightLogs'),rl=DB.get('runLogs'),ml=DB.get('macroLogs');
+  const last7=ml.slice(-7),avgComp=last7.length?Math.round(last7.reduce((s,l)=>s+(pct(l.p,MACRO_TARGETS.p)+pct(l.k,MACRO_TARGETS.k))/2,0)/last7.length):0;
+  const latestW=wl.length?wl[wl.length-1].kg:64,lastRun=rl.length?rl[rl.length-1]:null;
+  const el=document.getElementById('weekSummary');if(!el)return;
+  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+    <div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--accent)">${latestW} กก.</div><div style="color:var(--muted);font-size:12px">น้ำหนักล่าสุด</div><div style="font-size:12px;color:${latestW>=70?'var(--green)':'var(--orange)'}">${(70-latestW).toFixed(1)} กก. จากเป้า 70</div></div>
+    <div><div style="font-family:'Bebas Neue';font-size:28px;color:var(--purple)">${lastRun?lastRun.pace:'—'}</div><div style="color:var(--muted);font-size:12px">Pace ล่าสุด · เป้า 6:00</div><div style="font-size:12px;color:var(--muted2)">${lastRun?lastRun.dist+'km '+lastRun.date:'ยังไม่มีข้อมูล'}</div></div>
+    <div><div style="font-family:'Bebas Neue';font-size:28px;color:${avgComp>=90?'var(--green)':avgComp>=70?'var(--accent)':'var(--orange)'}">${avgComp}%</div><div style="color:var(--muted);font-size:12px">Macro compliance 7 วัน</div></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// BODY PHOTOS
+// ═══════════════════════════════════════════════════════
+let currentPhotoIndex=null;
+function compressImage(file,maxW=800){
+  return new Promise(res=>{
+    const img=new Image(),reader=new FileReader();
+    reader.onload=e=>{img.src=e.target.result;};
+    img.onload=()=>{const canvas=document.createElement('canvas');const ratio=Math.min(1,maxW/img.width);canvas.width=img.width*ratio;canvas.height=img.height*ratio;canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);res(canvas.toDataURL('image/jpeg',0.7));};
+    reader.readAsDataURL(file);
+  });
+}
+async function handlePhotoUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  const b64=await compressImage(file);
+  const photos=DB.get('bodyPhotos',[]);
+  const weight=parseFloat(document.getElementById('photoWeight')?.value)||null;
+  const note=document.getElementById('photoNote')?.value||'';
+  const date=new Date().toISOString().slice(0,10);
+  photos.push({date,weight,note,img:b64,analysis:null});
+  if(photos.length>30)photos.shift();
+  DB.set('bodyPhotos',photos);renderPhotoGrid();
+  if(document.getElementById('photoWeight'))document.getElementById('photoWeight').value='';
+  if(document.getElementById('photoNote'))document.getElementById('photoNote').value='';
+  e.target.value='';
+}
+function renderPhotoGrid(){
+  const photos=DB.get('bodyPhotos',[]),grid=document.getElementById('photoGrid');if(!grid)return;
+  if(!photos.length){grid.innerHTML='<div style="color:var(--muted);font-size:13px;grid-column:1/-1">ยังไม่มีรูป — อัปโหลดได้เลยครับ</div>';return;}
+  grid.innerHTML=photos.slice().reverse().map((p,i)=>`
+    <div class="photo-card" onclick="openPhoto(${photos.length-1-i})">
+      <img src="${p.img}" alt="body ${p.date}"><div class="pc-info">
+        <div class="pc-date">${p.date}</div>${p.weight?`<div class="pc-weight">${p.weight} กก.</div>`:''}
+        <div class="pc-note">${p.note||'—'}</div>
+        ${p.analysis?'<div style="font-size:10px;color:var(--green);margin-top:4px">✓ AI วิเคราะห์แล้ว</div>':''}
+      </div>
+    </div>`).join('');
+}
+function openPhoto(i){
+  currentPhotoIndex=i;const photos=DB.get('bodyPhotos',[]),p=photos[i];
+  const modal=document.getElementById('photoModal');if(!modal)return;
+  document.getElementById('modalImg').src=p.img;
+  const analysis=document.getElementById('modalAnalysis');
+  if(p.analysis){analysis.style.display='block';analysis.textContent=p.analysis;}
+  else{analysis.style.display='none';}
+  modal.classList.add('open');
+}
+function closePhotoModal(){document.getElementById('photoModal')?.classList.remove('open');currentPhotoIndex=null;}
+function deleteCurrentPhoto(){
+  if(currentPhotoIndex===null||!confirm('ลบรูปนี้?'))return;
+  const photos=DB.get('bodyPhotos',[]);photos.splice(currentPhotoIndex,1);DB.set('bodyPhotos',photos);
+  closePhotoModal();renderPhotoGrid();
+}
+async function analyzeBodyPhoto(){
+  if(currentPhotoIndex===null)return;
+  const photos=DB.get('bodyPhotos',[]),p=photos[currentPhotoIndex];
+  const analysis=document.getElementById('modalAnalysis');if(!analysis)return;
+  analysis.style.display='block';analysis.textContent='🤖 กำลังวิเคราะห์ด้วย Gemini...';
+  try{
+    const b64=p.img.split(',')[1];
+    const text=await GEMINI.vision(
+      `วิเคราะห์รูปร่างของผมครับ ผมชาย 28 ปี 183 ซม. น้ำหนัก${p.weight||64}กก. กำลังทำ Lean Bulk กินข้าว 3,200 kcal/วัน เล่นเวท Upper/Lower 4 วัน/สัปดาห์ วิเคราะห์: 1) กล้ามเนื้อส่วนไหนที่เห็นพัฒนาการ 2) ส่วนไหนควรโฟกัสเพิ่ม 3) Body composition โดยรวม 4) คำแนะนำ 2-3 ข้อที่ actionable ตอบเป็นภาษาไทย เป็นกันเอง ให้กำลังใจ`,
+      b64);
+    analysis.textContent=text;photos[currentPhotoIndex].analysis=text;DB.set('bodyPhotos',photos);renderPhotoGrid();
+  }catch(e){analysis.textContent='❌ เกิดข้อผิดพลาด: '+e.message+' — ตรวจสอบ Gemini API Key ใน Settings';}
+}
+
+// ═══════════════════════════════════════════════════════
+// AI COACH CHAT (Gemini)
+// ═══════════════════════════════════════════════════════
+const AI_SYSTEM=`คุณคือ AI Coach ด้าน Fitness และโภชนาการส่วนตัวของ Machok ชาย 28 ปี 183 ซม. น้ำหนัก ~64 กก. เป้าหมาย 70 กก. ใน 90 วัน
+โปรแกรม: Upper/Lower Split 4 วัน/สัปดาห์ + Core Finisher ทุกวัน
+เป้าวิ่ง: 5km sub-30 (ปัจจุบัน pace 8)
+โภชนาการ: 3,200 kcal · P:228g · C:419g · F:88g
+Smoothie เช้า: Oats 40g + Whey 40g + PB 30g + Strawberry 100g + กล้วย + นม 350ml + น้ำแข็ง + ไข่ต้ม 2 ฟอง
+Supplements: MakeMoves D3K2 2500IU + Omega-3 มื้อเย็น · Zinc+Mag ก่อนนอน · Whey+Creatine post-WO
+ตื่น 08:30 · เวท 10:30 · นอน 00:00 · WFH · ฟุตบอลทุกพฤหัส 20:00
+Smith Machine THAI-M · Dumbbell จด per side · แอพ Bevel
+ตอบภาษาไทย เป็นกันเอง ตรงประเด็น`;
+
+let chatHistory=[];
+function addMsgToUI(role,text){
+  const box=document.getElementById('chatMessages');if(!box)return;
+  const div=document.createElement('div');div.className=`msg ${role}`;
+  const time=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  div.innerHTML='<div class="msg-bubble">'+text.split('\n').join('<br>')+'</div><div class="msg-time">'+time+'</div>';
+  box.appendChild(div);box.scrollTop=box.scrollHeight;
+}
+async function sendChat(){
+  const input=document.getElementById('chatInput');if(!input)return;
+  const text=input.value.trim();if(!text)return;
+  const btn=document.getElementById('chatSendBtn');if(btn)btn.disabled=true;
+  input.value='';addMsgToUI('user',text);
+  chatHistory.push({role:'user',content:text});
+  const typing=document.getElementById('chatTyping');if(typing)typing.classList.add('show');
+  const box=document.getElementById('chatMessages');if(box)box.scrollTop=999999;
+  try{
+    const reply=await GEMINI.chat(chatHistory,AI_SYSTEM);
+    chatHistory.push({role:'assistant',content:reply});
+    if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
+    addMsgToUI('ai',reply);
+  }catch(e){addMsgToUI('ai','❌ '+e.message+' — กรุณาตั้งค่า Gemini API Key ใน Settings ก่อนครับ');}
+  if(typing)typing.classList.remove('show');
+  if(btn)btn.disabled=false;
+}
+function sendQuick(text){const input=document.getElementById('chatInput');if(input)input.value=text;sendChat();}
+function handleChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+
+// ═══════════════════════════════════════════════════════
+// AI PROGRESS ANALYSIS (Gemini)
+// ═══════════════════════════════════════════════════════
+async function analyzeWithAI(){
+  const wl=DB.get('weightLogs'),rl=DB.get('runLogs'),ml=DB.get('macroLogs'),wkl=DB.get('workoutLogs',[]);
+  const btn=document.getElementById('analyzeBtn');if(btn){btn.disabled=true;btn.textContent='🤖 กำลังวิเคราะห์...';}
+  const el=document.getElementById('aiProgressAnalysis');if(el){el.style.display='block';el.textContent='กำลังดึงข้อมูล...';}
+  const summary=`น้ำหนัก: ${wl.slice(-5).map(l=>l.date+':'+l.kg+'กก.').join(', ')||'ไม่มี'}
+การวิ่ง: ${rl.slice(-5).map(l=>l.date+' '+l.dist+'km pace'+l.pace).join(', ')||'ไม่มี'}
+Macro 7วัน: ${ml.slice(-7).map(l=>l.date+' P:'+l.p+'g K:'+l.k+'kcal').join(', ')||'ไม่มี'}
+Workout: ${wkl.slice(-3).map(l=>l.date+' '+l.day+' ('+l.entries.length+' exercises)').join(', ')||'ไม่มี'}`;
+  try{
+    const text=await GEMINI.call(`วิเคราะห์ Progress ของผมจากข้อมูลนี้:
+${summary}
+
+บอกผมว่า: 1) ทำได้ดีแค่ไหน 2) ต้องโฟกัสอะไรเพิ่ม 3) สิ่งที่ต้องปรับ 4) คำแนะนำ actionable สัปดาห์หน้า`,AI_SYSTEM);
+    if(el)el.textContent=text;
+  }catch(e){if(el)el.textContent='❌ '+e.message;}
+  if(btn){btn.disabled=false;btn.textContent='🤖 ให้ AI วิเคราะห์ Progress';}
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// FOOD DATABASE — ~150 items
+// p/c/f per 100g unless noted · kcal calculated
+// units: g(default), ml, piece(ชิ้น/ลูก/ฟอง), tbsp(15g), tsp(5g), cup(240ml)
+// ═══════════════════════════════════════════════════════
+const FOOD_DB = [
+// ── ข้าวและแป้ง ─────────────────────────────────────
+{name:'ข้าวหอมมะลิ (สุก)',alt:['ข้าวสวย','ข้าวขาว','rice cooked','ข้าว'],p:2.7,c:28.7,f:0.3,kcal:130,units:{g:1,ทัพพี:130,ถ้วย:185}},
+{name:'ข้าวหอมมะลิ (ดิบ)',alt:['ข้าวดิบ','raw rice'],p:7.5,c:79,f:0.5,kcal:356,units:{g:1,ถ้วย:185}},
+{name:'ข้าวกล้อง (สุก)',alt:['brown rice'],p:2.6,c:23,f:0.9,kcal:112,units:{g:1,ถ้วย:195}},
+{name:'ข้าวเหนียว (สุก)',alt:['sticky rice','ข้าวเหนียว'],p:2.1,c:28.5,f:0.2,kcal:97,units:{g:1,ถ้วย:174}},
+{name:'ข้าวต้ม / โจ๊ก',alt:['rice porridge','โจ๊ก','congee'],p:1.5,c:16,f:0.1,kcal:72,units:{g:1,ถ้วย:245}},
+{name:'ก๋วยเตี๋ยวเส้นเล็ก (สุก)',alt:['เส้นเล็ก','noodle thin'],p:3,c:22,f:0.4,kcal:106,units:{g:1,ถ้วย:140}},
+{name:'เส้นหมี่ / วุ้นเส้น (สุก)',alt:['glass noodle','วุ้นเส้น'],p:0.1,c:17,f:0,kcal:79,units:{g:1}},
+{name:'บะหมี่ (สุก)',alt:['egg noodle','bami'],p:5,c:25,f:2,kcal:138,units:{g:1,ถ้วย:160}},
+{name:'ขนมปังโฮลวีท',alt:['whole wheat bread','whole grain'],p:8,c:44,f:3,kcal:247,units:{g:1,แผ่น:30}},
+{name:'ขนมปังขาว',alt:['white bread'],p:7,c:50,f:2.5,kcal:265,units:{g:1,แผ่น:25}},
+{name:'Rolled Oats',alt:['โอ้ต','oatmeal','oats','ข้าวโอ้ต'],p:13.5,c:67,f:7,kcal:389,units:{g:1,tbsp:9,ถ้วย:80}},
+{name:'มันเทศ (นึ่ง)',alt:['sweet potato','มันหวาน'],p:1.6,c:20,f:0.1,kcal:86,units:{g:1,ลูก:150}},
+{name:'มันฝรั่ง (ต้ม)',alt:['potato boiled','มันฝรั่ง'],p:2,c:17,f:0.1,kcal:77,units:{g:1,ลูก:170}},
+{name:'เผือก (นึ่ง)',alt:['taro'],p:1.5,c:26,f:0.2,kcal:112,units:{g:1}},
+
+// ── โปรตีนสัตว์ ──────────────────────────────────────
+{name:'อกไก่ (ซูวี/ต้ม)',alt:['ไก่ต้ม','ซูวีไก่','chicken breast cooked','sous vide chicken'],p:31,c:0,f:3.6,kcal:165,units:{g:1,ชิ้น:150}},
+{name:'อกไก่ (ดิบ)',alt:['chicken breast raw','raw chicken'],p:23,c:0,f:1.7,kcal:110,units:{g:1,ชิ้น:130}},
+{name:'สะโพกไก่ (สุก)',alt:['chicken thigh'],p:25,c:0,f:12,kcal:209,units:{g:1,ชิ้น:90}},
+{name:'ไก่ทั้งตัว (สุก เอาหนัง)',alt:['whole chicken no skin'],p:28,c:0,f:8,kcal:190,units:{g:1}},
+{name:'หมูสันใน (ย่าง)',alt:['pork loin','หมูสันใน'],p:26,c:0,f:5,kcal:154,units:{g:1,ชิ้น:85}},
+{name:'หมูสามชั้น (ย่าง)',alt:['pork belly','หมูสามชั้น'],p:18,c:0,f:33,kcal:359,units:{g:1}},
+{name:'หมูบด (ผัด)',alt:['ground pork','หมูบด'],p:20,c:0,f:20,kcal:263,units:{g:1}},
+{name:'เนื้อบดวัว (ผัด)',alt:['ground beef','เนื้อบด','minced beef'],p:26,c:0,f:15,kcal:215,units:{g:1}},
+{name:'เนื้อวัว (ย่าง)',alt:['beef steak','เนื้อย่าง','steak'],p:27,c:0,f:10,kcal:200,units:{g:1,ชิ้น:120}},
+{name:'พิคานย่า (ย่าง)',alt:['picanha','picanha beef'],p:26,c:0,f:18,kcal:258,units:{g:1,ชิ้น:150}},
+{name:'ปลาแพนกาเซีย (สุก)',alt:['pangasius','ปลาแพน'],p:18,c:0,f:4,kcal:108,units:{g:1,ชิ้น:120}},
+{name:'ปลาทับทิม (นึ่ง)',alt:['tilapia','ปลาทับทิม'],p:20,c:0,f:4,kcal:128,units:{g:1,ตัว:250}},
+{name:'ปลาแซลมอน (อบ)',alt:['salmon','แซลมอน'],p:25,c:0,f:13,kcal:208,units:{g:1,ชิ้น:150}},
+{name:'ปลาทูน่า (กระป๋องน้ำเกลือ)',alt:['tuna can','ทูน่า'],p:26,c:0,f:1,kcal:116,units:{g:1,กระป๋อง:185}},
+{name:'ปลาซาร์ดีน (กระป๋อง)',alt:['sardine','ซาร์ดีน'],p:21,c:0,f:10,kcal:185,units:{g:1,กระป๋อง:100}},
+{name:'ปลาทอด (แป้งบาง)',alt:['fried fish','ปลาทอด'],p:19,c:8,f:12,kcal:216,units:{g:1,ชิ้น:100}},
+{name:'กุ้งขาว (สุก)',alt:['shrimp cooked','กุ้ง'],p:20,c:0.9,f:1.1,kcal:99,units:{g:1,ตัว:15}},
+{name:'หมึก (สุก)',alt:['squid','หมึก'],p:18,c:2,f:1.5,kcal:92,units:{g:1}},
+{name:'ปู (ต้ม)',alt:['crab','ปู'],p:18,c:0,f:1.5,kcal:87,units:{g:1}},
+{name:'ไข่ไก่ (ต้ม/ลวก)',alt:['egg','ไข่','ไข่ต้ม','boiled egg'],p:12.6,c:0.7,f:10.6,kcal:155,units:{g:1,ฟอง:60}},
+{name:'ไข่ขาว',alt:['egg white','ไข่ขาว'],p:11,c:0.7,f:0.2,kcal:52,units:{g:1,ฟอง:33}},
+{name:'ไข่แดง',alt:['egg yolk','ไข่แดง'],p:16,c:1.6,f:27,kcal:322,units:{g:1,ฟอง:17}},
+{name:'ไข่ดาว (น้ำมันน้อย)',alt:['fried egg','ไข่ดาว'],p:7,c:0.4,f:8,kcal:103,units:{g:1,ฟอง:60}},
+{name:'ไข่เจียว',alt:['thai omelette'],p:8,c:1,f:14,kcal:162,units:{g:1,ฟอง:70}},
+
+// ── ผลิตภัณฑ์นม ──────────────────────────────────────
+{name:'นม UHT (ไขมันเต็ม)',alt:['whole milk','นม','milk'],p:3.3,c:4.8,f:3.5,kcal:61,units:{ml:1,กล่อง:250,แก้ว:240}},
+{name:'นม UHT (พร่องมันเนย)',alt:['low fat milk','นมไขมันต่ำ'],p:3.5,c:5,f:1.5,kcal:46,units:{ml:1,กล่อง:250}},
+{name:'นมถั่วเหลือง',alt:['soy milk','นมถั่วเหลือง'],p:3.3,c:2.8,f:1.8,kcal:43,units:{ml:1,กล่อง:250,แก้ว:240}},
+{name:'นมอัลมอนด์',alt:['almond milk'],p:0.4,c:0.3,f:1.1,kcal:15,units:{ml:1}},
+{name:'กรีกโยเกิร์ต (ไขมันต่ำ)',alt:['greek yogurt','greek yoghurt','โยเกิร์ต'],p:10,c:3.6,f:0.4,kcal:59,units:{g:1,ถ้วย:150}},
+{name:'กรีกโยเกิร์ต (ไขมันเต็ม)',alt:['full fat greek yogurt'],p:9,c:4,f:5,kcal:97,units:{g:1}},
+{name:'Cottage Cheese',alt:['cottage cheese'],p:11,c:3,f:4,kcal:98,units:{g:1,ถ้วย:226}},
+{name:'นมผง (Whole)',alt:['whole milk powder'],p:26,c:38,f:27,kcal:496,units:{g:1,tbsp:9}},
+{name:'เนย (Butter)',alt:['butter','เนย'],p:0.9,c:0.1,f:81,kcal:717,units:{g:1,tbsp:14}},
+
+// ── Fitness Foods ─────────────────────────────────────
+{name:'Whey Protein Isolate (1 scoop)',alt:['whey','whey protein','โปรตีน','whey isolate'],p:25,c:1,f:0.5,kcal:110,units:{g:1,scoop:30},isUnit:true,unitG:30,unitName:'scoop'},
+{name:'Whey Protein Concentrate (1 scoop)',alt:['whey concentrate'],p:22,c:4,f:2,kcal:122,units:{g:1,scoop:30},isUnit:true,unitG:30,unitName:'scoop'},
+{name:'Creatine Monohydrate',alt:['creatine'],p:0,c:0,f:0,kcal:0,units:{g:1,tsp:5}},
+{name:'เนยถั่ว Natural PB',alt:['peanut butter','pb','เนยถั่ว','natural peanut butter'],p:25,c:20,f:50,kcal:588,units:{g:1,tbsp:16,tsp:5}},
+{name:'เนยถั่ว (แบบปกติ)',alt:['peanut butter smooth'],p:22,c:25,f:48,kcal:588,units:{g:1,tbsp:16}},
+{name:'อัลมอนด์',alt:['almonds','อัลมอนด์'],p:21,c:22,f:50,kcal:579,units:{g:1,เม็ด:1.2,tbsp:9,ถ้วย:143}},
+{name:'วอลนัท',alt:['walnuts'],p:15,c:14,f:65,kcal:654,units:{g:1,เม็ด:4,tbsp:10}},
+{name:'เมล็ดเจีย',alt:['chia seeds'],p:17,c:42,f:31,kcal:486,units:{g:1,tbsp:12}},
+{name:'แฟลกซีด (บด)',alt:['flaxseed','flax'],p:18,c:29,f:42,kcal:534,units:{g:1,tbsp:10}},
+{name:'โปรตีนบาร์ (ทั่วไป)',alt:['protein bar'],p:20,c:25,f:8,kcal:248,units:{g:1,แท่ง:60}},
+{name:'Mass Gainer (1 serving)',alt:['mass gainer','weight gainer'],p:30,c:60,f:5,kcal:405,units:{g:1,serving:100}},
+
+// ── ผลไม้ ─────────────────────────────────────────────
+{name:'กล้วยหอม',alt:['กล้วย','banana'],p:1.1,c:23,f:0.3,kcal:89,units:{g:1,ลูก:120}},
+{name:'กล้วยน้ำว้า',alt:['kluay namwa'],p:1.2,c:25,f:0.2,kcal:90,units:{g:1,ลูก:80}},
+{name:'สตรอว์เบอร์รี่แช่แข็ง',alt:['frozen strawberry','strawberry','สตรอว์เบอร์รี่'],p:0.7,c:8,f:0.3,kcal:33,units:{g:1,ถ้วย:152}},
+{name:'สตรอว์เบอร์รี่สด',alt:['fresh strawberry'],p:0.7,c:7.7,f:0.3,kcal:32,units:{g:1,ลูก:12}},
+{name:'อาโวคาโด',alt:['avocado'],p:2,c:9,f:15,kcal:160,units:{g:1,ลูก:200,ครึ่งลูก:100}},
+{name:'อินทผลัม',alt:['dates','date','อินทผาลัม'],p:1.8,c:75,f:0.2,kcal:282,units:{g:1,ลูก:24}},
+{name:'แอปเปิ้ล',alt:['apple','แอปเปิล'],p:0.3,c:14,f:0.2,kcal:52,units:{g:1,ลูก:182}},
+{name:'ส้ม',alt:['orange'],p:0.9,c:12,f:0.1,kcal:47,units:{g:1,ลูก:130}},
+{name:'มะม่วงสุก',alt:['ripe mango','มะม่วง'],p:0.8,c:17,f:0.4,kcal:65,units:{g:1,ลูก:200}},
+{name:'แตงโม',alt:['watermelon','แตงโม'],p:0.6,c:8,f:0.2,kcal:30,units:{g:1,ชิ้น:280}},
+{name:'สับปะรด',alt:['pineapple','สับปะรด'],p:0.5,c:13,f:0.1,kcal:50,units:{g:1,ชิ้น:84}},
+{name:'มังคุด',alt:['mangosteen'],p:0.4,c:18,f:0.2,kcal:73,units:{g:1,ลูก:75}},
+{name:'ลิ้นจี่',alt:['lychee','ลิ้นจี่'],p:0.8,c:17,f:0.4,kcal:66,units:{g:1,ลูก:10}},
+{name:'กีวี',alt:['kiwi'],p:1.1,c:15,f:0.5,kcal:61,units:{g:1,ลูก:75}},
+{name:'ลูกพรุน',alt:['prune','prunes'],p:2.2,c:64,f:0.4,kcal:240,units:{g:1,ลูก:10}},
+{name:'เบอร์รี่รวม (แช่แข็ง)',alt:['mixed berries','frozen berries'],p:1,c:9,f:0.3,kcal:42,units:{g:1,ถ้วย:150}},
+
+// ── ผัก ──────────────────────────────────────────────
+{name:'บล็อคโคลี่',alt:['broccoli','บร็อคโคลี่','บล็อกโคลี่'],p:2.8,c:7,f:0.4,kcal:34,units:{g:1,ถ้วย:91,ช่อ:30}},
+{name:'ผักโขม',alt:['spinach','ผักโขม'],p:2.9,c:3.6,f:0.4,kcal:23,units:{g:1,ถ้วย:30}},
+{name:'คะน้า',alt:['kale','คะน้า'],p:4.3,c:9,f:0.9,kcal:49,units:{g:1,ถ้วย:67}},
+{name:'ถั่วฝักยาว',alt:['long beans','ถั่วฝักยาว'],p:1.8,c:7,f:0.1,kcal:47,units:{g:1}},
+{name:'ถั่วเขียว (งอก)',alt:['bean sprouts','ถั่วงอก'],p:3,c:6,f:0.2,kcal:30,units:{g:1,ถ้วย:104}},
+{name:'ผักบุ้ง',alt:['morning glory','ผักบุ้งไฟแดง'],p:2.6,c:3.5,f:0.2,kcal:19,units:{g:1}},
+{name:'กะหล่ำปลี',alt:['cabbage','กะหล่ำ'],p:1.3,c:6,f:0.1,kcal:25,units:{g:1,ถ้วย:89}},
+{name:'แครอท',alt:['carrot','แครอท'],p:0.9,c:10,f:0.2,kcal:41,units:{g:1,ลูก:61,tbsp:8}},
+{name:'แตงกวา',alt:['cucumber','แตงกวา'],p:0.7,c:3.6,f:0.1,kcal:16,units:{g:1,ลูก:119}},
+{name:'มะเขือเทศ',alt:['tomato','มะเขือเทศ'],p:0.9,c:3.9,f:0.2,kcal:18,units:{g:1,ลูก:123}},
+{name:'ข้าวโพด (สุก)',alt:['corn','ข้าวโพด'],p:3.3,c:19,f:1.4,kcal:96,units:{g:1,ฝัก:90}},
+{name:'ถั่วแดง (ต้ม)',alt:['red kidney beans','red beans'],p:8.7,c:22,f:0.5,kcal:127,units:{g:1,ถ้วย:177}},
+{name:'ถั่วดำ (ต้ม)',alt:['black beans'],p:8.9,c:23,f:0.5,kcal:132,units:{g:1,ถ้วย:172}},
+{name:'ถั่วลันเตา',alt:['edamame','green peas'],p:5,c:14,f:0.4,kcal:81,units:{g:1,ถ้วย:160}},
+{name:'เต้าหู้แข็ง',alt:['firm tofu','เต้าหู้'],p:8,c:2,f:4.2,kcal:76,units:{g:1,ก้อน:120}},
+{name:'เต้าหู้ไข่ / นิ่ม',alt:['soft tofu','เต้าหู้ไข่','silken tofu'],p:5,c:2,f:2.7,kcal:55,units:{g:1,ก้อน:300}},
+{name:'เห็ดหอม',alt:['shiitake mushroom','เห็ดหอม'],p:2.2,c:7,f:0.5,kcal:34,units:{g:1}},
+{name:'เห็ดนางฟ้า',alt:['oyster mushroom','เห็ดนางฟ้า'],p:3.3,c:6,f:0.4,kcal:33,units:{g:1}},
+{name:'หน่อไม้ฝรั่ง',alt:['asparagus','asparagus'],p:2.2,c:3.9,f:0.1,kcal:20,units:{g:1,เส้น:17}},
+
+// ── น้ำมัน + ไขมัน ───────────────────────────────────
+{name:'น้ำมันมะกอก',alt:['olive oil'],p:0,c:0,f:100,kcal:884,units:{ml:1,tbsp:14,tsp:4.5}},
+{name:'น้ำมันมะพร้าว',alt:['coconut oil'],p:0,c:0,f:100,kcal:862,units:{ml:1,tbsp:14}},
+{name:'น้ำมันพืชทั่วไป',alt:['vegetable oil','cooking oil','น้ำมันพืช'],p:0,c:0,f:100,kcal:884,units:{ml:1,tbsp:14}},
+{name:'น้ำมันปลา (Fish Oil)',alt:['fish oil'],p:0,c:0,f:100,kcal:902,units:{ml:1,แคปซูล:1}},
+{name:'งาดำ',alt:['black sesame','งาดำ'],p:17,c:23,f:49,kcal:573,units:{g:1,tbsp:9}},
+
+// ── เครื่องปรุง + น้ำตาล ─────────────────────────────
+{name:'น้ำผึ้ง',alt:['honey','น้ำผึ้ง'],p:0.3,c:82,f:0,kcal:304,units:{g:1,tbsp:21,tsp:7}},
+{name:'น้ำตาลทราย',alt:['sugar','น้ำตาล'],p:0,c:100,f:0,kcal:387,units:{g:1,tbsp:12,tsp:4}},
+{name:'น้ำตาลมะพร้าว',alt:['coconut sugar','น้ำตาลมะพร้าว'],p:0,c:92,f:0,kcal:383,units:{g:1,tbsp:12}},
+{name:'ซอสถั่วเหลือง / ซีอิ้วขาว',alt:['soy sauce','ซีอิ้ว','ซีอิ้วขาว'],p:8,c:7,f:0,kcal:53,units:{ml:1,tbsp:18}},
+{name:'น้ำปลา',alt:['fish sauce','น้ำปลา'],p:1,c:1,f:0,kcal:25,units:{ml:1,tbsp:18}},
+{name:'ซอสหอยนางรม',alt:['oyster sauce','ซอสหอย'],p:1,c:10,f:0.3,kcal:51,units:{g:1,tbsp:18}},
+
+// ── อาหารไทยสำเร็จรูป (ประมาณการ 1 จาน) ──────────────
+{name:'ข้าวมันไก่ (1 จาน)',alt:['khao man gai'],p:35,c:75,f:12,kcal:548,isUnit:true,unitG:350,unitName:'จาน'},
+{name:'ผัดไทย (1 จาน)',alt:['pad thai'],p:20,c:60,f:15,kcal:455,isUnit:true,unitG:350,unitName:'จาน'},
+{name:'ข้าวผัดไก่ (1 จาน)',alt:['fried rice chicken','ข้าวผัด'],p:18,c:65,f:12,kcal:440,isUnit:true,unitG:350,unitName:'จาน'},
+{name:'ต้มยำไก่ (1 ถ้วย)',alt:['tom yum','ต้มยำ'],p:20,c:5,f:5,kcal:145,isUnit:true,unitG:250,unitName:'ถ้วย'},
+{name:'ต้มข่าไก่ (1 ถ้วย)',alt:['tom kha','ต้มข่า'],p:15,c:8,f:20,kcal:268,isUnit:true,unitG:250,unitName:'ถ้วย'},
+{name:'แกงเขียวหวานไก่ (1 ถ้วย)',alt:['green curry','แกงเขียวหวาน'],p:15,c:10,f:22,kcal:294,isUnit:true,unitG:250,unitName:'ถ้วย'},
+{name:'ผัดกระเพราไก่ (1 จาน)',alt:['basil stir fry','กระเพรา'],p:25,c:10,f:15,kcal:275,isUnit:true,unitG:250,unitName:'จาน'},
+{name:'ผัดกระเทียมไก่ (1 จาน)',alt:['garlic chicken','ผัดกระเทียม'],p:28,c:8,f:10,kcal:234,isUnit:true,unitG:250,unitName:'จาน'},
+{name:'ปลานึ่งมะนาว (ตัวกลาง)',alt:['steamed fish lime','ปลานึ่งมะนาว'],p:42,c:5,f:4,kcal:226,isUnit:true,unitG:250,unitName:'ตัว'},
+{name:'ส้มตำ (1 จาน)',alt:['som tam','papaya salad','ส้มตำ'],p:3,c:15,f:3,kcal:97,isUnit:true,unitG:200,unitName:'จาน'},
+{name:'ลาบไก่ (1 จาน)',alt:['larb chicken','ลาบ'],p:28,c:12,f:8,kcal:232,isUnit:true,unitG:200,unitName:'จาน'},
+{name:'ก๋วยเตี๋ยวน้ำใส (1 ชาม)',alt:['noodle soup clear','ก๋วยเตี๋ยวน้ำ'],p:18,c:40,f:4,kcal:268,isUnit:true,unitG:400,unitName:'ชาม'},
+{name:'ก๋วยเตี๋ยวราดหน้า (1 จาน)',alt:['rad na','ราดหน้า'],p:20,c:55,f:10,kcal:394,isUnit:true,unitG:400,unitName:'จาน'},
+{name:'ข้าวราดแกง (ทั่วไป)',alt:['rice with curry','ข้าวราดแกง'],p:15,c:65,f:10,kcal:410,isUnit:true,unitG:400,unitName:'จาน'},
+
+// ── เครื่องดื่ม ───────────────────────────────────────
+{name:'ชาเขียว (ไม่หวาน)',alt:['green tea','ชาเขียว'],p:0,c:0,f:0,kcal:2,units:{ml:1,แก้ว:240,ถ้วย:240}},
+{name:'กาแฟดำ (ไม่หวาน)',alt:['black coffee','americano','กาแฟดำ'],p:0.3,c:0,f:0,kcal:5,units:{ml:1,แก้ว:240}},
+{name:'น้ำมะพร้าว',alt:['coconut water','น้ำมะพร้าว'],p:0.7,c:4.5,f:0.2,kcal:19,units:{ml:1,ลูก:350}},
+{name:'น้ำส้มคั้น',alt:['orange juice','น้ำส้ม'],p:0.7,c:10,f:0.2,kcal:45,units:{ml:1,แก้ว:240}},
+];
+
+
+// ═══════════════════════════════════════════════════════
+// FOOD CALCULATOR
+// ═══════════════════════════════════════════════════════
+const MEAL_NAMES=['มื้อ 1 — Smoothie เช้า','Pre-WO','Post-WO Shake','มื้อ 4 — Lunch','มื้อ 5 — Smoothie บ่าย','มื้อ 6 — Dinner','Pre-bed'];
+const MEAL_TIMES=['09:00','10:00','12:00','13:30','16:00','19:00','22:00'];
+
+let fcCurrentFood=null;
+let fcMeals=DB.get('fcMeals',MEAL_NAMES.map((name,i)=>({id:i,name,time:MEAL_TIMES[i],items:[],note:''})));
+let fcCurrentSuggestions=[];
+
+function fcSuggest(){
+  const q=document.getElementById('fcFoodInput')?.value.trim().toLowerCase()||'';
+  const sug=document.getElementById('fcSuggestions');if(!sug)return;
+  if(q.length<1){sug.classList.remove('show');return;}
+  const results=FOOD_DB.filter(f=>f.name.toLowerCase().includes(q)||(f.alt&&f.alt.some(a=>a.toLowerCase().includes(q)))).slice(0,8);
+  fcCurrentSuggestions=results;
+  if(!results.length){sug.classList.remove('show');return;}
+  sug.innerHTML=results.map((f,i)=>`<div class="fc-sug-item" onclick="fcSelectFood(${i})"><span>${f.name}</span><span class="fc-sug-macro">P:${f.p}g C:${f.c}g F:${f.f}g · ${f.kcal}kcal/100g</span></div>`).join('');
+  sug.classList.add('show');
+}
+function fcSelectFood(i){
+  const food=fcCurrentSuggestions[i];
+  const inp=document.getElementById('fcFoodInput');if(inp)inp.value=food.name;
+  document.getElementById('fcSuggestions')?.classList.remove('show');
+  // Set smart default unit
+  const unitSel=document.getElementById('fcUnit');
+  const amtInp=document.getElementById('fcAmount');
+  if(food.isUnit){if(amtInp)amtInp.value=1;if(unitSel)unitSel.value='piece';}
+  else{if(amtInp)amtInp.value=100;if(unitSel)unitSel.value='g';}
+  fcCalcAndShow(food);
+}
+
+async function fcSearch(){
+  const q=document.getElementById('fcFoodInput')?.value.trim();if(!q)return;
+  document.getElementById('fcSuggestions')?.classList.remove('show');
+  const local=FOOD_DB.find(f=>f.name.toLowerCase().includes(q.toLowerCase())||(f.alt&&f.alt.some(a=>a.toLowerCase().includes(q.toLowerCase()))));
+  if(local){fcCalcAndShow(local);return;}
+  // AI Fallback via Gemini
+  const btn=document.getElementById('fcSearchBtn');if(btn){btn.disabled=true;btn.textContent='⏳ AI กำลังค้นหา...';}
+  const statusEl=document.getElementById('fcStatus');if(statusEl)statusEl.textContent='ไม่พบใน Database — กำลังใช้ Gemini คำนวณ...';
+  try{
+    const amt=parseFloat(document.getElementById('fcAmount')?.value)||100;
+    const unit=document.getElementById('fcUnit')?.value||'g';
+    const text=await GEMINI.call(
+      `คำนวณ macro ของ "${q}" ปริมาณ ${amt}${unit} ตอบ JSON เท่านั้น ไม่มี markdown:
+{"name":"ชื่ออาหาร","p":โปรตีน_กรัม,"c":คาร์บ_กรัม,"f":ไขมัน_กรัม,"kcal":แคลอรี} ตัวเลขต่อ${amt}${unit}นี้เลย ไม่ใช่ต่อ 100g`,
+      'ตอบ JSON เท่านั้น ไม่มีข้อความอื่น ไม่มี markdown backticks'
+    );
+    const clean=text.split('```').join('').replace('json','').trim();
+    const json=JSON.parse(clean);
+    if(json.name){
+      fcCurrentFood={name:json.name,p:+json.p,c:+json.c,f:+json.f,kcal:+json.kcal,amount:amt,displayAmt:`${amt}${unit}`};
+      showFcResult(json.name,+json.p,+json.c,+json.f,+json.kcal,amt,unit);
+      if(statusEl)statusEl.textContent='✅ คำนวณโดย Gemini AI (อาจมีความคลาดเคลื่อน ±10%)';
+    }
+  }catch(e){if(statusEl)statusEl.textContent='❌ AI Error: '+e.message+' — ตรวจสอบ API Key ใน Settings';}
+  if(btn){btn.disabled=false;btn.textContent='🔍 Search';}
+}
+
+function fcCalcAndShow(food){
+  const amt=parseFloat(document.getElementById('fcAmount')?.value)||100;
+  const unit=document.getElementById('fcUnit')?.value||'g';
+  let ratio,displayAmt;
+  if(food.isUnit){ratio=(food.unitG||100)/100;displayAmt=`${amt} ${food.unitName||'ชิ้น'}`;}
+  else if(unit==='tbsp'){ratio=(amt*15)/100;displayAmt=`${amt} ช้อนโต๊ะ`;}
+  else if(unit==='tsp'){ratio=(amt*5)/100;displayAmt=`${amt} ช้อนชา`;}
+  else if(unit==='cup'){ratio=(amt*240)/100;displayAmt=`${amt} ถ้วย`;}
+  else if(unit==='piece'){
+    // Check if food has a piece weight
+    const pieceG=food.units?.ลูก||food.units?.ฟอง||food.units?.ชิ้น||100;
+    ratio=(amt*pieceG)/100;displayAmt=`${amt} ชิ้น (~${Math.round(amt*pieceG)}g)`;
+  }
+  else{ratio=amt/100;displayAmt=`${amt}g`;}
+  const p=+(food.p*ratio).toFixed(1),c=+(food.c*ratio).toFixed(1),f=+(food.f*ratio).toFixed(1),kcal=+(food.kcal*ratio).toFixed(0);
+  fcCurrentFood={name:food.name,p,c,f,kcal,amount:amt,unit,displayAmt};
+  showFcResult(food.name,p,c,f,kcal,amt,unit);
+  document.getElementById('fcStatus').textContent='';
+}
+function showFcResult(name,p,c,f,kcal,amt,unit){
+  const nameEl=document.getElementById('fcFoodName'),macroEl=document.getElementById('fcResultMacros'),resultEl=document.getElementById('fcResult');
+  if(nameEl)nameEl.textContent=`${name} — ${amt}${unit||'g'}`;
+  if(macroEl)macroEl.innerHTML=`<span class="mc mc-p">P: ${p}g</span><span class="mc mc-c">C: ${c}g</span><span class="mc mc-f">F: ${f}g</span><span class="mc mc-k">${kcal} kcal</span>`;
+  if(resultEl)resultEl.classList.add('show');
+}
+function fcClear(){
+  const inp=document.getElementById('fcFoodInput');if(inp)inp.value='';
+  document.getElementById('fcAmount').value=100;
+  document.getElementById('fcResult')?.classList.remove('show');
+  document.getElementById('fcSuggestions')?.classList.remove('show');
+  document.getElementById('fcStatus').textContent='';
+  fcCurrentFood=null;
+}
+
+// FOOD PHOTO — Gemini Vision
+async function handleFoodPhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  const resultEl=document.getElementById('fcResult'),statusEl=document.getElementById('fcStatus');
+  if(statusEl)statusEl.textContent='📸 กำลังวิเคราะห์รูปอาหารด้วย Gemini...';
+  try{
+    const b64=await new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.readAsDataURL(file);});
+    const text=await GEMINI.vision(
+      'วิเคราะห์อาหารในรูปนี้ ตอบ JSON เท่านั้น ไม่มี markdown: {name:ชื่ออาหาร, p:โปรตีน_กรัม, c:คาร์บ_กรัม, f:ไขมัน_กรัม, kcal:แคลอรี, estimate_g:น้ำหนักประมาณ_กรัม} คำนวณต่อปริมาณที่เห็นในรูป',
+      b64);
+    const clean=text.split('```').join('').replace('json','').trim();
+    const json=JSON.parse(clean);
+    if(json.name){
+      fcCurrentFood={name:json.name+' (AI จากรูป)',p:+json.p,c:+json.c,f:+json.f,kcal:+json.kcal,amount:json.estimate_g||100,displayAmt:`~${json.estimate_g||100}g (ประมาณ)`};
+      const inp=document.getElementById('fcFoodInput');if(inp)inp.value=json.name;
+      showFcResult(json.name+' 📸',+json.p,+json.c,+json.f,+json.kcal,json.estimate_g||100,'g');
+      if(statusEl)statusEl.textContent='✅ AI วิเคราะห์จากรูปแล้ว (ค่าประมาณ ±15%)';
+    }
+  }catch(e){if(statusEl)statusEl.textContent='❌ '+e.message;}
+  e.target.value='';
+}
+
+function fcAddToMeal(){
+  if(!fcCurrentFood){alert('กรุณาค้นหาอาหารก่อนครับ');return;}
+  const mealIdx=parseInt(document.getElementById('fcMealTarget')?.value||0);
+  if(mealIdx===7){const newName=prompt('ชื่อมื้อใหม่:');if(!newName)return;fcMeals.push({id:Date.now(),name:newName,time:'',items:[],note:''});}
+  const targetIdx=mealIdx===7?fcMeals.length-1:mealIdx;
+  fcMeals[targetIdx].items.push({id:Date.now(),name:fcCurrentFood.name,amount:fcCurrentFood.amount,unit:fcCurrentFood.unit||'g',displayAmt:fcCurrentFood.displayAmt,p:fcCurrentFood.p,c:fcCurrentFood.c,f:fcCurrentFood.f,kcal:fcCurrentFood.kcal,done:false});
+  DB.set('fcMeals',fcMeals);renderFcMeals();updateDailyTotal();
+  const btn=document.querySelector('.fc-add-btn');if(btn){btn.textContent='✅ เพิ่มแล้ว!';setTimeout(()=>btn.textContent='+ เพิ่มเข้ามื้อ',1200);}
+}
+
+function renderFcMeals(){
+  const container=document.getElementById('fcMealContainer');if(!container)return;
+  const mealsWithItems=fcMeals.filter(m=>m.items.length>0);
+  if(!mealsWithItems.length){container.innerHTML='<div class="fc-status">ยังไม่มีรายการ — ค้นหาและเพิ่มอาหารด้านบนได้เลยครับ</div>';document.getElementById('fcDailyTotal').style.display='none';return;}
+  document.getElementById('fcDailyTotal').style.display='block';
+  container.innerHTML=fcMeals.map((meal,mi)=>{
+    if(!meal.items.length)return'';
+    const mT=meal.items.reduce((s,item)=>({p:s.p+item.p,c:s.c+item.c,f:s.f+item.f,kcal:s.kcal+item.kcal}),{p:0,c:0,f:0,kcal:0});
+    return`<div class="meal-section"><div class="meal-section-head"><div class="meal-section-title">${meal.name}</div>${meal.time?`<div class="meal-time-badge">${meal.time}</div>`:''}<div class="meal-section-macros"><span class="mc mc-p">P:${mT.p.toFixed(1)}g</span><span class="mc mc-c">C:${mT.c.toFixed(1)}g</span><span class="mc mc-f">F:${mT.f.toFixed(1)}g</span><span class="mc mc-k">${Math.round(mT.kcal)} kcal</span></div></div>
+    <div class="meal-items-list">${meal.items.map((item,ii)=>`<div class="meal-item"><div class="meal-item-cb ${item.done?'done':''}" onclick="fcToggleItem(${mi},${ii})"></div><div><div class="meal-item-name" style="${item.done?'text-decoration:line-through;color:var(--muted)':''}">${item.name}</div><div class="meal-item-amount">${item.displayAmt||item.amount+item.unit}</div></div><div class="meal-item-macros">P:${item.p}g C:${item.c}g<br>${Math.round(item.kcal)} kcal</div><div class="meal-item-del" onclick="fcDeleteItem(${mi},${ii})">✕</div></div>`).join('')}</div>
+    <div class="meal-note-row"><input class="meal-note-input" placeholder="📝 โน้ตมื้อนี้..." value="${meal.note||''}" onchange="fcSaveNote(${mi},this.value)"></div></div>`;
+  }).join('');
+}
+function fcToggleItem(mi,ii){fcMeals[mi].items[ii].done=!fcMeals[mi].items[ii].done;DB.set('fcMeals',fcMeals);renderFcMeals();}
+function fcDeleteItem(mi,ii){fcMeals[mi].items.splice(ii,1);DB.set('fcMeals',fcMeals);renderFcMeals();updateDailyTotal();}
+function fcSaveNote(mi,val){fcMeals[mi].note=val;DB.set('fcMeals',fcMeals);}
+
+const FC_TARGETS={p:228,c:419,f:88,kcal:3200};
+function updateDailyTotal(){
+  const total=fcMeals.reduce((s,meal)=>{meal.items.forEach(item=>{s.p+=item.p;s.c+=item.c;s.f+=item.f;s.kcal+=item.kcal;});return s;},{p:0,c:0,f:0,kcal:0});
+  const cap=(v,t)=>Math.min(100,Math.round(v/t*100));
+  ['P','C','F','K'].forEach(n=>{
+    const k=n.toLowerCase()==='k'?'kcal':n.toLowerCase();
+    const bar=document.getElementById('dtBar'+n),val=document.getElementById('dtVal'+n);
+    if(bar)bar.style.width=cap(total[k],FC_TARGETS[k])+'%';
+    if(val){
+      const t=FC_TARGETS[k];
+      val.textContent=k==='kcal'?(Math.round(total[k])+' / '+t):(total[k].toFixed(1)+' / '+t+'g');
+    }
+  });
+}
+function fcSaveToMacroLog(){
+  const total=fcMeals.reduce((s,meal)=>{meal.items.forEach(item=>{s.p+=item.p;s.c+=item.c;s.f+=item.f;s.kcal+=item.kcal;});return s;},{p:0,c:0,f:0,kcal:0});
+  const date=new Date().toISOString().slice(0,10);
+  const logs=DB.get('macroLogs');const ex=logs.findIndex(l=>l.date===date);const entry={date,p:+total.p.toFixed(1),c:+total.c.toFixed(1),f:+total.f.toFixed(1),k:Math.round(total.kcal)};
+  if(ex>=0)logs[ex]=entry;else logs.push(entry);DB.set('macroLogs',logs);
+  alert(`✅ บันทึกลง Macro Log แล้ว!\nProtein: ${entry.p}g · Carb: ${entry.c}g · Fat: ${entry.f}g · ${entry.k} kcal`);
+  renderMacroLogs();
+}
+function fcResetDay(){
+  if(!confirm('ล้างข้อมูลมื้ออาหารวันนี้?'))return;
+  fcMeals=MEAL_NAMES.map((name,i)=>({id:i,name,time:MEAL_TIMES[i],items:[],note:''}));
+  DB.set('fcMeals',fcMeals);renderFcMeals();updateDailyTotal();
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function showToast(msg){
+  const t=document.createElement('div');
+  t.textContent=msg;t.style.cssText='position:fixed;bottom:24px;right:24px;background:var(--accent);color:#000;padding:10px 20px;font-family:"JetBrains Mono";font-size:12px;z-index:9999;font-weight:700';
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2000);
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+const initDate=new Date().toISOString().slice(0,10);
+['logDate','macroDate','runDate','wkDate'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=initDate;});
+if(!GEMINI.getKey()){setTimeout(()=>showKeyModal(),800);}
+renderMob();
+renderTracker();
+renderWeightLogs();
+renderMacroLogs();
+renderRunLogs();
+renderWorkoutHistory();
+renderFcMeals();
+updateDailyTotal();
+renderPhotoGrid();
+setTimeout(updateWeekSummary,200);
+</script>
+</html>
