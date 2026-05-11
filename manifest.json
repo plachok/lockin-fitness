@@ -2,7 +2,7 @@
   "name": "LOCK IN — Fitness Dashboard",
   "short_name": "LOCK IN",
   "description": "Personal Fitness & Nutrition Tracker",
-  "start_url": "./fitness_v3.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#080808",
   "theme_color": "#080808",
