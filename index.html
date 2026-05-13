@@ -471,6 +471,56 @@ hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
 
 /* Safe area for iPhone notch */
 .nav{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+
+/* WATER TRACKER */
+.water-tracker{background:var(--card);border:1px solid var(--border);padding:16px 18px;margin-bottom:12px}
+.water-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.water-title{font-family:"Bebas Neue";font-size:22px;color:var(--accent2)}
+.water-goal{font-family:"JetBrains Mono";font-size:11px;color:var(--muted)}
+.water-bar-wrap{background:var(--border);height:12px;border-radius:6px;margin-bottom:12px;overflow:hidden}
+.water-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:6px;transition:width .4s}
+.water-amount{font-family:"Bebas Neue";font-size:40px;color:var(--accent2);line-height:1;text-align:center;margin-bottom:8px}
+.water-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.water-btn{background:var(--surface);border:1px solid var(--accent2);color:var(--accent2);padding:8px 14px;font-family:"JetBrains Mono";font-size:12px;cursor:pointer;transition:all .2s;flex:1;min-width:70px;text-align:center}
+.water-btn:hover{background:rgba(0,229,255,.1)}
+.water-btn.primary{background:var(--accent2);color:#000;font-weight:700}
+.water-custom{display:flex;gap:6px;margin-top:8px}
+.water-custom input{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:8px 12px;font-family:"JetBrains Mono";font-size:13px;flex:1}
+.water-custom input:focus{outline:none;border-color:var(--accent2)}
+
+/* SLEEP LOG */
+.sleep-log{background:var(--card);border:1px solid var(--border);padding:14px 16px;margin-bottom:12px}
+.sleep-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sleep-row label{font-family:"JetBrains Mono";font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;min-width:50px}
+.sleep-row input[type=time]{background:var(--surface);border:1px solid var(--border2);color:var(--white);padding:8px 12px;font-family:"JetBrains Mono";font-size:14px}
+.sleep-row input[type=time]:focus{outline:none;border-color:var(--purple)}
+
+/* QUICK MEAL SELECT */
+.quick-meal-section{background:var(--card);border:1px solid var(--border);margin-bottom:8px;overflow:hidden}
+.qm-head{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;background:var(--dark);border-bottom:1px solid var(--border)}
+.qm-title{font-family:"Bebas Neue";font-size:18px;color:var(--accent2)}
+.qm-time{font-family:"JetBrains Mono";font-size:10px;color:var(--muted);padding:2px 8px;border:1px solid var(--border2)}
+.qm-kcal{font-family:"JetBrains Mono";font-size:11px;color:var(--orange);margin-left:auto}
+.qm-body{display:none;padding:10px 14px}
+.qm-body.open{display:block}
+.qm-items{display:flex;flex-direction:column;gap:6px}
+.qm-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:border-color .2s}
+.qm-item:hover{border-color:var(--accent)}
+.qm-item.selected{border-color:var(--green);background:rgba(0,230,118,.05)}
+.qm-item-cb{width:16px;height:16px;border:1px solid var(--border2);background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.qm-item.selected .qm-item-cb{background:var(--green);border-color:var(--green)}
+.qm-item.selected .qm-item-cb::after{content:"✓";color:#000;font-size:10px;font-weight:900}
+.qm-item-name{flex:1;font-size:13px;font-weight:600}
+.qm-item-macro{font-family:"JetBrains Mono";font-size:10px;color:var(--muted2);text-align:right}
+.qm-add-btn{width:100%;margin-top:8px;background:var(--accent);color:#000;border:none;padding:8px;font-family:"JetBrains Mono";font-size:11px;font-weight:700;cursor:pointer}
+
+/* BARCODE */
+.barcode-area{background:var(--card);border:2px dashed var(--border2);padding:20px;text-align:center;margin-bottom:12px;cursor:pointer;transition:border-color .2s}
+.barcode-area:hover{border-color:var(--accent)}
+.barcode-preview{width:100%;max-height:200px;object-fit:contain;margin:8px 0;display:none}
+
+/* AUTO-CHECK badge */
+.auto-badge{font-size:9px;font-family:"JetBrains Mono";padding:1px 5px;background:rgba(0,230,118,.15);color:var(--green);border:1px solid var(--green);letter-spacing:.5px;margin-left:4px}
 </style>
 </head>
 <body>
@@ -489,6 +539,14 @@ hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
       <div class="pill"><span class="pill-lbl">โปรตีน</span><span class="pill-val">170g</span><span class="pill-sub">เป้า/วัน</span></div>
       <div class="pill"><span class="pill-lbl">วิ่งเป้า</span><span class="pill-val">sub30</span><span class="pill-sub">5km</span></div>
       <div class="pill"><span class="pill-lbl">AI Coach</span><span class="pill-val">✓</span><span class="pill-sub">พร้อมใช้งาน</span></div>
+    </div>
+    <!-- BACKUP BUTTONS -->
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <button onclick="exportData()" style="background:var(--card);border:1px solid var(--green);color:var(--green);padding:8px 16px;font-family:'JetBrains Mono';font-size:11px;cursor:pointer;letter-spacing:1px">⬇️ Export ข้อมูล</button>
+      <label style="background:var(--card);border:1px solid var(--accent2);color:var(--accent2);padding:8px 16px;font-family:'JetBrains Mono';font-size:11px;cursor:pointer;letter-spacing:1px">
+        ⬆️ Import ข้อมูล
+        <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+      </label>
     </div>
   </div>
 </div>
@@ -1211,6 +1269,41 @@ hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
   </div>
 
   <hr class="div">
+  <!-- WATER TRACKER -->
+  <div class="water-tracker" id="waterTracker">
+    <div class="water-header">
+      <div class="water-title">💧 น้ำวันนี้</div>
+      <div class="water-goal">เป้า: 3,500 ml</div>
+    </div>
+    <div class="water-amount" id="waterAmount">0 ml</div>
+    <div class="water-bar-wrap"><div class="water-bar-fill" id="waterBar" style="width:0%"></div></div>
+    <div class="water-buttons">
+      <div class="water-btn" onclick="addWater(100)">+100</div>
+      <div class="water-btn" onclick="addWater(200)">+200</div>
+      <div class="water-btn" onclick="addWater(250)">+250</div>
+      <div class="water-btn" onclick="addWater(500)">+500</div>
+      <div class="water-btn" onclick="addWater(750)">+750</div>
+      <div class="water-btn primary" onclick="resetWater()">Reset</div>
+    </div>
+    <div class="water-custom">
+      <input type="number" id="waterCustom" placeholder="กรอก ml เอง" min="1" max="2000">
+      <button class="log-btn" onclick="addWaterCustom()">เพิ่ม</button>
+    </div>
+  </div>
+
+  <!-- SLEEP LOG -->
+  <div class="sleep-log">
+    <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">😴 บันทึกการนอน</div>
+    <div class="sleep-row">
+      <label>นอน</label>
+      <input type="time" id="sleepBed" value="23:30">
+      <label>ตื่น</label>
+      <input type="time" id="sleepWake" value="08:30">
+      <button class="log-btn" onclick="saveSleep()" style="white-space:nowrap">💾 บันทึก</button>
+      <div id="sleepResult" style="font-family:'JetBrains Mono';font-size:12px;color:var(--purple)"></div>
+    </div>
+  </div>
+
   <div class="log-title" style="margin-top:4px">🏋️ บันทึก Workout Session</div>
   <div style="background:var(--card);border:1px solid var(--border);padding:18px;margin-bottom:12px">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:12px">
@@ -1281,6 +1374,15 @@ hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
     <div class="sh-title">ตารางชีวิต</div>
     <div class="sh-desc">ตื่น 08:30 · Mobility 08:30 · เวท 10:30 · นอน 00:00</div>
   </div>
+  <!-- NOTIFICATION BUTTON -->
+  <div style="background:var(--card);border:1px solid var(--border);padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-weight:700;font-size:15px">🔔 แจ้งเตือน Daily Schedule</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px">กด Allow แล้วจะแจ้งเตือนทุกมื้อและทุก Session อัตโนมัติ</div>
+    </div>
+    <button class="log-btn" onclick="requestNotificationPermission()" style="white-space:nowrap;background:var(--purple);border-color:var(--purple)">🔔 เปิดแจ้งเตือน</button>
+  </div>
+
   <div class="alarm-grid">
     <div class="alarm-item" style="border-left-color:var(--accent2)"><div class="alarm-t" style="color:var(--accent2)">08:30</div><div class="alarm-act">ตื่น + Morning Mobility</div><div class="alarm-note">10 นาที บนเสื่อ · ก่อนกินข้าว</div></div>
     <div class="alarm-item" style="border-left-color:var(--accent)"><div class="alarm-t" style="color:var(--accent)">09:00</div><div class="alarm-act">Smoothie + ไข่ต้ม 2 ฟอง</div><div class="alarm-note">ปั่น 65 วิ · รวม 790 kcal</div></div>
@@ -1301,7 +1403,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
 <!-- ══════════════════════════════════════
      TAB 12: FOOD CALCULATOR
 ══════════════════════════════════════ -->
-<div class="sec" id="foodcalc">
+<div class="sec"  id="foodcalc">
   <div class="sh">
     <div class="sh-tag">12 · Food Calculator</div>
     <div class="sh-title">คำนวณ Macro อาหาร</div>
@@ -2266,6 +2368,433 @@ function showToast(msg){
 }
 
 // ═══════════════════════════════════════════════════════
+// QUICK MEAL PRESETS
+// ═══════════════════════════════════════════════════════
+const QUICK_MEALS = [
+  { id:0, mealName:'มื้อ 1 — Smoothie เช้า', time:'09:00', items:[
+    {name:'Rolled Oats',amount:40,unit:'g',p:5.4,c:26.8,f:2.8,kcal:156},
+    {name:'Whey Protein',amount:40,unit:'g',p:20,c:2,f:1,kcal:97},
+    {name:'Peanut Butter',amount:30,unit:'g',p:7.5,c:6,f:15,kcal:188},
+    {name:'Frozen Strawberry',amount:100,unit:'g',p:0.7,c:8,f:0.3,kcal:33},
+    {name:'กล้วยหอม',amount:120,unit:'g',p:1.3,c:27.6,f:0.4,kcal:107},
+    {name:'นม UHT',amount:350,unit:'ml',p:11.6,c:16.8,f:12.3,kcal:214},
+    {name:'ไข่ต้ม',amount:120,unit:'g',p:15.1,c:0.8,f:12.7,kcal:186},
+  ]},
+  { id:1, mealName:'Pre-WO', time:'10:00', items:[
+    {name:'ชาเขียว',amount:240,unit:'ml',p:0,c:0,f:0,kcal:5},
+    {name:'กล้วยหอม',amount:120,unit:'g',p:1.3,c:27.6,f:0.4,kcal:107},
+  ]},
+  { id:2, mealName:'Post-WO Shake', time:'12:00', items:[
+    {name:'Whey Protein',amount:40,unit:'g',p:20,c:2,f:1,kcal:97},
+    {name:'นม UHT',amount:300,unit:'ml',p:9.9,c:14.4,f:10.5,kcal:183},
+    {name:'กล้วยหอม',amount:120,unit:'g',p:1.3,c:27.6,f:0.4,kcal:107},
+    {name:'Creatine',amount:5,unit:'g',p:0,c:0,f:0,kcal:0},
+  ]},
+  { id:3, mealName:'มื้อ 4 — Lunch', time:'13:30', items:[
+    {name:'ข้าวหอมมะลิ (สุก)',amount:220,unit:'g',p:5.9,c:63.1,f:0.7,kcal:286},
+    {name:'อกไก่ (ซูวี/ต้ม)',amount:180,unit:'g',p:55.8,c:0,f:6.5,kcal:297},
+    {name:'บล็อคโคลี่',amount:100,unit:'g',p:2.8,c:7,f:0.4,kcal:34},
+  ]},
+  { id:4, mealName:'มื้อ 5 — Smoothie บ่าย', time:'16:00', items:[
+    {name:'นม UHT',amount:350,unit:'ml',p:11.6,c:16.8,f:12.3,kcal:214},
+    {name:'กล้วยหอม',amount:240,unit:'g',p:2.6,c:55.2,f:0.7,kcal:214},
+    {name:'Peanut Butter',amount:30,unit:'g',p:7.5,c:6,f:15,kcal:188},
+    {name:'Rolled Oats',amount:40,unit:'g',p:5.4,c:26.8,f:2.8,kcal:156},
+  ]},
+  { id:5, mealName:'มื้อ 6 — Dinner', time:'19:00', items:[
+    {name:'ข้าวหอมมะลิ (สุก)',amount:200,unit:'g',p:5.4,c:57.4,f:0.6,kcal:260},
+    {name:'ปลาแพนกาเซีย (สุก)',amount:200,unit:'g',p:36,c:0,f:8,kcal:216},
+    {name:'บล็อคโคลี่',amount:80,unit:'g',p:2.2,c:5.6,f:0.3,kcal:27},
+  ]},
+  { id:6, mealName:'Pre-bed', time:'22:00', items:[
+    {name:'นม UHT',amount:300,unit:'ml',p:9.9,c:14.4,f:10.5,kcal:183},
+    {name:'ไข่ต้ม',amount:120,unit:'g',p:15.1,c:0.8,f:12.7,kcal:186},
+  ]},
+];
+
+let qmSelected = DB.get('qmSelected', {});
+
+function renderQuickMeals(){
+  const el = document.getElementById('quickMealContainer'); if(!el) return;
+  el.innerHTML = QUICK_MEALS.map(meal => {
+    const mTotal = meal.items.reduce((s,i)=>({p:s.p+i.p,c:s.c+i.c,f:s.f+i.f,kcal:s.kcal+i.kcal}),{p:0,c:0,f:0,kcal:0});
+    const sel = qmSelected[meal.id] || false;
+    return `<div class="quick-meal-section">
+      <div class="qm-head" onclick="toggleQmSection(${meal.id})">
+        <div class="qm-title">${meal.mealName}</div>
+        <div class="qm-time">${meal.time}</div>
+        <div class="qm-kcal">${Math.round(mTotal.kcal)} kcal</div>
+        ${sel?'<div style="color:var(--green);font-size:11px;margin-left:8px">✓ เพิ่มแล้ว</div>':''}
+      </div>
+      <div class="qm-body" id="qm_body_${meal.id}">
+        <div class="qm-items">
+          ${meal.items.map(item=>`
+            <div class="qm-item">
+              <div class="qm-item-name">${item.name} <span style="color:var(--muted);font-size:11px">${item.amount}${item.unit}</span></div>
+              <div class="qm-item-macro">P:${item.p.toFixed(1)}g C:${item.c.toFixed(1)}g<br>${Math.round(item.kcal)} kcal</div>
+            </div>`).join('')}
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="qm-add-btn" onclick="addQuickMeal(${meal.id})" style="flex:1">
+            ${sel?'✓ เพิ่มไปแล้ว — เพิ่มอีกครั้ง':'+ เพิ่มทุกรายการเข้า Macro Log'}
+          </button>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+          <span class="mc mc-p">P: ${mTotal.p.toFixed(1)}g</span>
+          <span class="mc mc-c">C: ${mTotal.c.toFixed(1)}g</span>
+          <span class="mc mc-f">F: ${mTotal.f.toFixed(1)}g</span>
+          <span class="mc mc-k">${Math.round(mTotal.kcal)} kcal</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleQmSection(id){
+  const body = document.getElementById('qm_body_'+id);
+  if(body) body.classList.toggle('open');
+}
+
+function addQuickMeal(mealId){
+  const meal = QUICK_MEALS[mealId];
+  if(!meal) return;
+  // Add to fcMeals
+  const targetMealIdx = mealId < fcMeals.length ? mealId : 0;
+  meal.items.forEach(item => {
+    fcMeals[targetMealIdx].items.push({
+      id: Date.now() + Math.random(),
+      name: item.name,
+      amount: item.amount,
+      unit: item.unit,
+      displayAmt: `${item.amount}${item.unit}`,
+      p: item.p, c: item.c, f: item.f, kcal: item.kcal,
+      done: false
+    });
+  });
+  DB.set('fcMeals', fcMeals);
+  qmSelected[mealId] = true;
+  DB.set('qmSelected', qmSelected);
+  renderQuickMeals();
+  renderFcMeals();
+  updateDailyTotal();
+  checkAutoMacro();
+  showToast('✅ เพิ่มเมนู '+meal.mealName+' แล้ว');
+}
+
+function resetQuickMeals(){
+  qmSelected = {};
+  DB.set('qmSelected', qmSelected);
+  renderQuickMeals();
+}
+
+// ═══════════════════════════════════════════════════════
+// WATER TRACKER
+// ═══════════════════════════════════════════════════════
+const WATER_GOAL = 3500;
+const WATER_KEY = 'waterToday_' + new Date().toISOString().slice(0,10);
+
+function getWater(){ return DB.get(WATER_KEY, 0) || 0; }
+function addWater(ml){
+  let w = getWater() + ml;
+  DB.set(WATER_KEY, w);
+  renderWater();
+  checkAutoWater();
+}
+function addWaterCustom(){
+  const inp = document.getElementById('waterCustom');
+  const ml = parseInt(inp?.value || 0);
+  if(ml > 0){ addWater(ml); if(inp) inp.value = ''; }
+}
+function resetWater(){ DB.set(WATER_KEY, 0); renderWater(); }
+function renderWater(){
+  const w = getWater();
+  const pct = Math.min(100, Math.round(w/WATER_GOAL*100));
+  const amtEl = document.getElementById('waterAmount');
+  const barEl = document.getElementById('waterBar');
+  if(amtEl) amtEl.textContent = w + ' ml';
+  if(barEl) barEl.style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════════════════
+// SLEEP TRACKER
+// ═══════════════════════════════════════════════════════
+function saveSleep(){
+  const bed = document.getElementById('sleepBed')?.value;
+  const wake = document.getElementById('sleepWake')?.value;
+  if(!bed || !wake) return;
+  const [bh,bm] = bed.split(':').map(Number);
+  const [wh,wm] = wake.split(':').map(Number);
+  let mins = (wh*60+wm) - (bh*60+bm);
+  if(mins < 0) mins += 24*60;
+  const hours = (mins/60).toFixed(1);
+  const result = document.getElementById('sleepResult');
+  if(result) result.textContent = hours + ' ชม.';
+  const today = new Date().toISOString().slice(0,10);
+  DB.set('sleepLog_'+today, {bed, wake, hours: parseFloat(hours)});
+  checkAutoSleep(parseFloat(hours));
+  showToast('💤 บันทึกการนอน ' + hours + ' ชม.');
+}
+
+// ═══════════════════════════════════════════════════════
+// BARCODE SCANNER (Open Food Facts API)
+// ═══════════════════════════════════════════════════════
+async function handleBarcodeImage(e){
+  const file = e.target.files[0]; if(!file) return;
+  const statusEl = document.getElementById('barcodeStatus');
+  const preview = document.getElementById('barcodePreview');
+  
+  // Show preview
+  const reader = new FileReader();
+  reader.onload = ev => { if(preview){ preview.src=ev.target.result; preview.style.display='block'; } };
+  reader.readAsDataURL(file);
+  
+  if(statusEl) statusEl.textContent = '🔍 กำลังอ่าน Barcode...';
+  
+  try {
+    // Use Gemini Vision to read barcode number
+    const b64 = await new Promise(res => {
+      const r = new FileReader();
+      r.onload = ev => res(ev.target.result.split(',')[1]);
+      r.readAsDataURL(file);
+    });
+    
+    const barcodeText = await GEMINI.vision(
+      'อ่าน barcode number จากรูปนี้ ตอบแค่ตัวเลข barcode เท่านั้น ไม่มีข้อความอื่น เช่น: 8850000123456',
+      b64
+    );
+    
+    const barcode = barcodeText.trim().replace(/[^0-9]/g,'');
+    if(!barcode || barcode.length < 8) {
+      if(statusEl) statusEl.textContent = '❌ ไม่พบ Barcode กรุณาถ่ายใหม่ให้ชัดขึ้น';
+      return;
+    }
+    
+    if(statusEl) statusEl.textContent = '📡 Barcode: ' + barcode + ' — กำลังค้นหาข้อมูล...';
+    
+    // Lookup in Open Food Facts
+    const resp = await fetch('https://world.openfoodfacts.org/api/v2/product/' + barcode + '.json');
+    const data = await resp.json();
+    
+    if(data.status === 1 && data.product) {
+      const p = data.product;
+      const n = p.nutriments || {};
+      const name = p.product_name_th || p.product_name || p.product_name_en || 'สินค้า Barcode ' + barcode;
+      const per100 = {
+        name,
+        p: Math.round((n['proteins_100g'] || n['proteins'] || 0)*10)/10,
+        c: Math.round((n['carbohydrates_100g'] || n['carbohydrates'] || 0)*10)/10,
+        f: Math.round((n['fat_100g'] || n['fat'] || 0)*10)/10,
+        kcal: Math.round(n['energy-kcal_100g'] || n['energy-kcal'] || (n['energy_100g']||0)/4.184 || 0),
+      };
+      const serving = p.serving_size ? parseFloat(p.serving_size) : 100;
+      
+      fcCurrentFood = {
+        name: per100.name,
+        p: +(per100.p * serving / 100).toFixed(1),
+        c: +(per100.c * serving / 100).toFixed(1),
+        f: +(per100.f * serving / 100).toFixed(1),
+        kcal: +(per100.kcal * serving / 100).toFixed(0),
+        amount: serving,
+        displayAmt: serving + 'g (1 serving)'
+      };
+      
+      const inp = document.getElementById('fcFoodInput');
+      if(inp) inp.value = per100.name;
+      if(document.getElementById('fcAmount')) document.getElementById('fcAmount').value = serving;
+      showFcResult(per100.name + ' 📦', fcCurrentFood.p, fcCurrentFood.c, fcCurrentFood.f, fcCurrentFood.kcal, serving, 'g');
+      if(statusEl) statusEl.textContent = '✅ พบข้อมูล: ' + per100.name;
+    } else {
+      // Not in DB - ask Gemini to estimate
+      if(statusEl) statusEl.textContent = '⚠️ ไม่พบใน Open Food Facts — ให้ AI ประมาณการ...';
+      const barcodeInfo = await GEMINI.vision(
+        'รูปนี้คือสินค้าอาหาร/เครื่องดื่มอะไร? ตอบ JSON: {"name":"ชื่อสินค้า","p":โปรตีน_ต่อ100g,"c":คาร์บ_ต่อ100g,"f":ไขมัน_ต่อ100g,"kcal":แคลอรี_ต่อ100g,"serving":ปริมาณต่อหน่วย_กรัม}',
+        b64
+      );
+      const clean = barcodeInfo.split('```').join('').replace('json','').trim();
+      const json = JSON.parse(clean);
+      if(json.name){
+        const serving = json.serving || 100;
+        fcCurrentFood = {
+          name: json.name + ' (AI)',
+          p: +(json.p*serving/100).toFixed(1),
+          c: +(json.c*serving/100).toFixed(1),
+          f: +(json.f*serving/100).toFixed(1),
+          kcal: +(json.kcal*serving/100).toFixed(0),
+          amount: serving, displayAmt: serving+'g'
+        };
+        showFcResult(json.name+' 📦', fcCurrentFood.p, fcCurrentFood.c, fcCurrentFood.f, fcCurrentFood.kcal, serving, 'g');
+        if(statusEl) statusEl.textContent = '✅ AI ประมาณการ: ' + json.name + ' (อาจคลาดเคลื่อน ±15%)';
+      }
+    }
+  } catch(err) {
+    if(statusEl) statusEl.textContent = '❌ Error: ' + err.message;
+  }
+  e.target.value = '';
+}
+
+// ═══════════════════════════════════════════════════════
+// AUTO-CHECK TRACKER LOGIC
+// ═══════════════════════════════════════════════════════
+function checkAutoAll(){
+  checkAutoWorkout();
+  checkAutoRun();
+  checkAutoMobility();
+  checkAutoMacro();
+  checkAutoWater();
+  checkAutoSleep();
+  checkAutoSupp();
+}
+
+function autoSetHabit(habitKey, done){
+  const today = (new Date().getDay()+6)%7;
+  const k = getKey(currentWeek, today, habitKey);
+  if(done && !trackerData[k]){
+    trackerData[k] = true;
+    DB.set('trackerData3', trackerData);
+    renderTracker();
+    showToast('✅ Auto-check: ' + habitKey + ' ครบแล้ว!');
+  }
+}
+
+function checkAutoWorkout(){
+  const today = new Date().toISOString().slice(0,10);
+  const logs = DB.get('workoutLogs',[]);
+  const todayLog = logs.find(l => l.date === today);
+  if(todayLog && todayLog.entries.length >= 4){
+    autoSetHabit('workout', true);
+  }
+}
+
+function checkAutoRun(){
+  const today = new Date().toISOString().slice(0,10);
+  const logs = DB.get('runLogs',[]);
+  const todayRun = logs.find(l => l.date === today);
+  if(todayRun) autoSetHabit('run', true);
+}
+
+function checkAutoMobility(){
+  if(mobDone.size >= MOBILITY.length) autoSetHabit('mob', true);
+}
+
+function checkAutoMacro(){
+  const today = new Date().toISOString().slice(0,10);
+  const total = fcMeals.reduce((s,meal)=>{
+    meal.items.forEach(item=>{s.p+=item.p;s.c+=item.c;s.f+=item.f;s.kcal+=item.kcal;});
+    return s;
+  },{p:0,c:0,f:0,kcal:0});
+  const compliance = (pct(total.p,MACRO_TARGETS.p)+pct(total.kcal,MACRO_TARGETS.k))/2;
+  if(compliance >= 90) autoSetHabit('food', true);
+}
+
+function checkAutoWater(){
+  const w = getWater();
+  if(w >= WATER_GOAL) autoSetHabit('water', true);
+}
+
+function checkAutoSleep(hours){
+  if(hours && hours >= 7) autoSetHabit('sleep', true);
+}
+
+function checkAutoSupp(){
+  // Manual - user taps supplement taken
+}
+
+// ═══════════════════════════════════════════════════════
+// LOCAL NOTIFICATIONS
+// ═══════════════════════════════════════════════════════
+const NOTIFICATIONS_SCHEDULE = [
+  {hour:9,  min:0,  title:'🥤 มื้อ 1 — Smoothie เช้า',   body:'ปั่น Smoothie + ไข่ต้ม 2 ฟอง ก่อนเวท'},
+  {hour:10, min:0,  title:'⚡ Pre-Workout',               body:'ชาเขียว + กล้วย ก่อนเวท 30 นาที'},
+  {hour:10, min:30, title:'🏋️ เวลาเวท!',                  body:'Upper/Lower ตามโปรแกรมวันนี้'},
+  {hour:12, min:0,  title:'🥤 Post-WO Shake',             body:'Whey + Creatine 5g ภายใน 30 นาที'},
+  {hour:13, min:30, title:'🍚 มื้อ 4 — Lunch',            body:'ข้าว + โปรตีน + ผัก'},
+  {hour:16, min:0,  title:'🥤 มื้อ 5 — Smoothie บ่าย',   body:'Mega Smoothie 620 kcal'},
+  {hour:19, min:0,  title:'🍽️ มื้อ 6 — Dinner',          body:'Dinner + D3K2 + Omega-3'},
+  {hour:22, min:0,  title:'🌙 มื้อ 7 — Pre-bed',         body:'นม + ไข่ + Zinc + Magnesium'},
+  {hour:23, min:30, title:'📱 เตรียมนอน',                 body:'วางโทรศัพท์ เตรียม Sleep'},
+];
+
+async function requestNotificationPermission(){
+  if(!('Notification' in window)){
+    alert('Browser นี้ไม่รองรับ Notification ครับ ลองเปิดใน Safari บน iPhone'); return;
+  }
+  const perm = await Notification.requestPermission();
+  if(perm === 'granted'){
+    scheduleNotifications();
+    showToast('✅ เปิด Notification แล้ว!');
+    new Notification('LOCK IN', {body:'การแจ้งเตือน Daily Schedule พร้อมแล้วครับ 💪', icon:'./icon-192.png'});
+  } else {
+    alert('กรุณา Allow Notification ใน Settings → Safari → Notifications ครับ');
+  }
+}
+
+function scheduleNotifications(){
+  if(Notification.permission !== 'granted') return;
+  // Store schedule in localStorage for service worker
+  DB.set('notifEnabled', true);
+  // Check every minute
+  if(!window._notifInterval){
+    window._notifInterval = setInterval(checkNotifications, 30000);
+    checkNotifications(); // Run immediately
+  }
+}
+
+function checkNotifications(){
+  if(Notification.permission !== 'granted') return;
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const lastFired = DB.get('lastNotifFired', {});
+  NOTIFICATIONS_SCHEDULE.forEach(n => {
+    const key = `${h}:${m === n.min ? 'ok' : 'no'}`;
+    const fireKey = `${n.hour}_${n.min}_${now.toISOString().slice(0,10)}`;
+    if(h === n.hour && m >= n.min && m < n.min+2 && !lastFired[fireKey]){
+      new Notification(n.title, {body:n.body, icon:'./icon-192.png'});
+      lastFired[fireKey] = true;
+      DB.set('lastNotifFired', lastFired);
+    }
+  });
+}
+
+
+// ═══════════════════════════════════════════════════════
+// EXPORT / IMPORT DATA
+// ═══════════════════════════════════════════════════════
+function exportData(){
+  const keys = ['weightLogs','runLogs','macroLogs','workoutLogs','bodyPhotos',
+    'trackerData3','fcMeals','qmSelected','notifEnabled','geminiKey'];
+  const data = {};
+  keys.forEach(k => { const v = localStorage.getItem(k); if(v) data[k] = v; });
+  // Also grab water keys
+  Object.keys(localStorage).forEach(k => { if(k.startsWith('waterToday_') || k.startsWith('sleepLog_')) data[k] = localStorage.getItem(k); });
+  
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'lockin_backup_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ Export สำเร็จ!');
+}
+
+function importData(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if(!confirm('นำเข้าข้อมูลจะทับข้อมูลปัจจุบัน — ยืนยันไหมครับ?')) return;
+      Object.entries(data).forEach(([k,v]) => localStorage.setItem(k, v));
+      showToast('✅ Import สำเร็จ! Refresh หน้าเพื่อโหลดข้อมูลใหม่');
+      setTimeout(() => location.reload(), 1500);
+    } catch(err) { alert('❌ ไฟล์ไม่ถูกต้องครับ: ' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
 const initDate=new Date().toISOString().slice(0,10);
@@ -2280,6 +2809,10 @@ renderWorkoutHistory();
 renderFcMeals();
 updateDailyTotal();
 renderPhotoGrid();
+renderQuickMeals();
+renderWater();
+checkAutoAll();
+if(DB.get('notifEnabled')) scheduleNotifications();
 setTimeout(updateWeekSummary,200);
 </script>
 </html>
